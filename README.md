@@ -1,3 +1,5 @@
+![animation](http://eel.is/freeskate-holder.gif)
+
 # Freeskate Holder
 
 This is a design for a freeline skate holder that:
