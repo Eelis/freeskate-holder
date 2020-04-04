@@ -1,26 +1,26 @@
 $fa = 1;
 $fs = 0.4;
 
-module spring() {
-    // axle
-    translate([0,0,spring_arm_length])
-    rotate([0,90,0])
-    cylinder(h=spring_axle_length,r=spring_axle_diameter / 2);
-    // arms
-    translate([spring_wire_width/2,-spring_axle_diameter / 2 + spring_wire_width/2,0])
-    cylinder(h=spring_arm_length,r=spring_wire_width/2);
-   
-    translate([spring_axle_length - spring_wire_width/2,spring_axle_diameter / 2 - spring_wire_width/2,0])
-    cylinder(h=spring_arm_length,r=spring_wire_width/2);
-    // hands
-    translate([0,-spring_axle_diameter / 2 + spring_wire_width / 2, spring_wire_width/2])
-    rotate([0,90,0])
-    cylinder(h=spring_axle_length*0.75,r=spring_wire_width/2);
-
-    translate([0.25 * spring_axle_length,spring_axle_diameter / 2 - spring_wire_width / 2, spring_wire_width/2])
-    rotate([0,90,0])
-    cylinder(h=spring_axle_length*0.75,r=spring_wire_width/2);
-}
+skate_width = 143;
+skate_length = 179;
+wall_width = 3;
+wall_height = 30;
+latch_length = 30;
+latch_width = 20;
+deck_thickness = 12; // measured
+clip_thickness = 3;
+clip_wall_width = 3;
+spring_axle_length = 14; // measured
+spring_axle_diameter = 7; // measured
+spring_arm_length = 21; // measured from axle center
+bolt_diameter = 3;
+corner_radius = 40;
+skate_overlap = 25;
+spring_wire_width = 1.3;
+cliphouse_wall_width = 3;
+clip_width = spring_axle_length + 2 * cliphouse_wall_width;
+epsilon = 0.01;
+gap = 0.5;
 
 module slice(h, r, a,start=0){
     difference(){
@@ -39,97 +39,11 @@ module arc(h, r, a, w, start=0){
     }
 }
 
-
-skate_width = 143;
-skate_length = 179;
-wall_width = 3;
-wall_height = 30;
-latch_length = 30;
-latch_width = 20;
-deck_thickness = 12; // measured
-clip_thickness = 3;
-clip_wall_width = 3;
-spring_axle_length = 14; // measured
-spring_axle_diameter = 7; // measured
-spring_arm_length = 21; // measured from axle center
-bolt_diameter = 3;
-corner_radius = 40;
-skate_overlap = 25;
-
-module corner() {
-    arc(h=wall_height, w=wall_width, r=corner_radius, a=90);
-    
-    translate([corner_radius*0.7,corner_radius*0.7,15])
-    rotate([0,90,315])
-    arc(h=wall_width*2, w=wall_width, r=8, a=180);
+module prism(l, w, h){
+    polyhedron(
+        points=[[0,0,0], [l,0,0], [l,w,0], [0,w,0], [0,w,h], [l,w,h]],
+        faces=[[0,1,2,3],[5,4,3,2],[0,4,5,1],[0,3,4],[5,2,1]]);
 }
-
-module side_wall() {
-
-    translate([skate_width / 2,
-               corner_radius-epsilon,
-               0])
-    cube([wall_width, skate_length*2-skate_overlap - corner_radius*2 + 2*epsilon+8, wall_height]);
-
-    // bridge:
-       
-    bridge_radius=15;
-    bridge_size=20;
-    translate([
-        skate_width/2 - bridge_radius + wall_width,
-        bridge_offset + bridge_size,
-        wall_height])
-    rotate([90,0,0])
-    arc(h=bridge_size,w=wall_width,r=bridge_radius,a=90);
-    
-    translate([0,bridge_offset,wall_height+bridge_radius-wall_width])
-    cube([skate_width / 2 - bridge_radius + wall_width, bridge_size, wall_width]);
-
-    translate([0,bridge_offset,wall_height-wall_width])
-    cube([skate_width / 2 - bridge_radius + wall_width, wall_width, bridge_radius]);
-
-    translate([-epsilon,bridge_offset,wall_height-wall_width])
-    cube([skate_width / 2 + epsilon*2, wall_width, wall_width+epsilon]);
-
-
-    
-    bridge_offset = skate_length - skate_overlap - wall_width;
-    
-    translate([skate_width / 2 - bridge_radius + wall_width,
-               bridge_offset + wall_width,
-               wall_height])
-    rotate([90,0,0])
-    slice(h=wall_width,r=bridge_radius,a=90);
-    
-    // upper platform:
-    translate([-epsilon, skate_length-15, wall_width + deck_thickness + 5.5])
-    rotate([-7,0,0])
-    cube([skate_width/2 + epsilon*2, 70, wall_width]);
-
-    translate([clip_width/2+gap, skate_length-15, wall_width + deck_thickness + 5.5])
-    rotate([-7,0,0])
-    cube([20, 177, wall_width]);
-
-    
-    // lower platform:
-    translate([-epsilon, 90, 0])
-    cube([skate_width/2 + epsilon*2, 100, wall_width]);
-
-    translate([clip_width/2+gap, 0, 0])
-    cube([20, 100, wall_width]);
-
-    
-    // backstop:
-    translate([-epsilon, 188])
-    cube([skate_width/2 + epsilon*2, wall_width, 20]);
-
-}
-
-
-cliphouse_wall_width = 3;
-clip_width = spring_axle_length + 2 * cliphouse_wall_width;
-
-epsilon = 0.3;
 
 module ring(h, rinner, router) {
     difference() {
@@ -139,6 +53,90 @@ module ring(h, rinner, router) {
         translate([0,0,-epsilon])
         cylinder(h=h+epsilon*2,r=rinner);
     }
+}
+
+module spring() {
+    // axle
+    translate([0,0,spring_arm_length])
+    rotate([0,90,0])
+    cylinder(h=spring_axle_length,r=spring_axle_diameter / 2);
+    // arms
+    translate([spring_wire_width/2,-spring_axle_diameter / 2 + spring_wire_width/2,0])
+    cylinder(h=spring_arm_length,r=spring_wire_width/2);
+    translate([spring_axle_length - spring_wire_width/2,spring_axle_diameter / 2 - spring_wire_width/2,0])
+    cylinder(h=spring_arm_length,r=spring_wire_width/2);
+    // hands
+    translate([0,-spring_axle_diameter / 2 + spring_wire_width / 2, spring_wire_width/2])
+    rotate([0,90,0])
+    cylinder(h=spring_axle_length*0.75,r=spring_wire_width/2);
+    translate([0.25 * spring_axle_length,spring_axle_diameter / 2 - spring_wire_width / 2, spring_wire_width/2])
+    rotate([0,90,0])
+    cylinder(h=spring_axle_length*0.75,r=spring_wire_width/2);
+}
+
+module corner() {
+    arc(h=wall_height, w=wall_width, r=corner_radius, a=90);
+
+    translate([corner_radius*0.7,corner_radius*0.7,15])
+    rotate([0,90,315])
+    arc(h=wall_width*2, w=wall_width, r=8, a=180);
+}
+
+module side_wall() {
+    translate([skate_width / 2,
+               corner_radius-epsilon,
+               0])
+    cube([wall_width, skate_length*2-skate_overlap - (corner_radius-wall_width)*2 + 2*epsilon+2, wall_height]);
+
+    // bridge:
+    bridge_radius=15;
+    bridge_size=20;
+    bridge_offset = skate_length - skate_overlap - wall_width;
+
+    translate([
+        skate_width/2 - bridge_radius + wall_width,
+        bridge_offset + bridge_size,
+        wall_height])
+        rotate([90,0,0])
+            arc(h=bridge_size,w=wall_width,r=bridge_radius,a=90);
+    translate([0,bridge_offset,wall_height+bridge_radius-wall_width])
+        cube([skate_width / 2 - bridge_radius + wall_width, bridge_size, wall_width]);
+    translate([0,bridge_offset,wall_height-wall_width])
+        cube([skate_width / 2 - bridge_radius + wall_width, wall_width, bridge_radius]);
+    translate([-epsilon,bridge_offset,wall_height-wall_width])
+        cube([skate_width / 2 + epsilon*2, wall_width, wall_width+epsilon]);
+    
+    translate([skate_width / 2 - bridge_radius + wall_width,
+               bridge_offset + wall_width,
+               wall_height])
+    rotate([90,0,0])
+    slice(h=wall_width,r=bridge_radius,a=90);
+    
+    // upper platform:
+    
+    translate([-clip_width/2-gap,epsilon+wall_width+skate_length*2-skate_overlap+2,0])
+    rotate([7,0,180])
+    cube([20,176,wall_width]);
+    
+    translate([-epsilon,epsilon+wall_width+skate_length*2-skate_overlap+2,0])
+    rotate([7,0,180])
+    translate([0,126,0])
+    cube([skate_width / 2 + epsilon*2, 50, wall_width]);
+
+    translate([-epsilon,epsilon + wall_width + skate_length*2-skate_overlap+2,0])
+    rotate([7,0,180])
+    translate([0, 58, 0])
+    cube([skate_width / 2 + epsilon * 2, 10, wall_width]);
+    
+    // lower platform:
+    translate([-epsilon, 90, 0])
+        cube([skate_width/2 + epsilon*2, 100, wall_width]);
+    translate([clip_width/2 + gap, 0, 0])
+        cube([20, 100, wall_width]);
+    
+    // backstop:
+    translate([-epsilon, 188])
+        cube([skate_width/2 + epsilon*2, wall_width, 20]);
 }
 
 module clip() {
@@ -188,8 +186,6 @@ module clip() {
                 w=7,
                 start=134);
 }
-
-gap = 0.5;
 
 module cliphouse() {
     // back wall
@@ -261,17 +257,10 @@ module truck() {
     translate([-52,0,30])
     rotate([90,0,0])
     color("black") cylinder(r=35,h=45,center=true);
-    
 }
-
-spring_wire_width = 1.3;
-
-
 
 //translate([clip_wall_width,0,2*3+deck_thickness]) color("grey") spring();
 //$t = 1;
-
-flow = sin($t * 360)/2+0.5;
 
 module fullcorner() {
     translate([corner_radius-skate_width / 2 - wall_width,corner_radius,0])
@@ -308,9 +297,6 @@ module one_end() {
     cliphouse();
 }
 
-
-
-
 /* animation:
 
 0 paused while skates stored, clip locked.
@@ -322,14 +308,9 @@ module one_end() {
 6 move clip open + move skate back rest
 7 move clip closed
 
-
-
-
-
 */
 
 function anim_phase() = floor($t * 8);
-
 
 module skates() {
     phase = anim_phase();
@@ -363,7 +344,7 @@ module skates() {
             3 + deck_thickness + 12 + 1 * 5])
         rotate([-7 + 14 * 1,0,0]) skate();
     } else if (phase == 5) {
-        translate([skate_width/2, 3 + skate_length+2 - (1 - tflow) * 40, 3 + (1 - tflow)*10])
+        translate([skate_width / 2, 3 + skate_length+2 - (1 - tflow) * 40, 3 + (1 - tflow)*10])
         rotate([14*1,0,180])
         skate();
         translate([
@@ -372,14 +353,14 @@ module skates() {
             3 + deck_thickness + 12 + (1 - tflow) * 5])
         rotate([-7 + 14 * 1,0,0]) skate();
     } else if (phase == 6) {
-        translate([skate_width/2,3 + skate_length+2,3])
-        rotate([14*(1 - tflow),0,180])
+        translate([skate_width / 2, 3 + skate_length+2,3])
+        rotate([14*(1 - tflow), 0, 180])
         skate();
         translate([
             -skate_width/2,
             3 + skate_length - skate_overlap,
             3 + deck_thickness + 12])
-        rotate([-7 + 14 * (1 - tflow),0,0]) skate();
+            rotate([-7 + 14 * (1 - tflow),0,0]) skate();
     } else {
         translate([skate_width/2,3 + skate_length+2,3])
         rotate([0,0,180])
@@ -388,7 +369,7 @@ module skates() {
             -skate_width/2,
             3 + skate_length - skate_overlap,
             3 + deck_thickness + 12])
-        rotate([-7,0,0]) skate();
+            rotate([-7,0,0]) skate();
     }
 }
 
@@ -398,17 +379,9 @@ module device() {
 
     one_end();
     translate([0,2*skate_length-skate_overlap+8,0])
-    mirror([0,1,0]) one_end();
+        mirror([0,1,0])
+            one_end();
 }
-
-module prism(l, w, h){
-       polyhedron(
-               points=[[0,0,0], [l,0,0], [l,w,0], [0,w,0], [0,w,h], [l,w,h]],
-               faces=[[0,1,2,3],[5,4,3,2],[0,4,5,1],[0,3,4],[5,2,1]]
-               );
-}
-   
-
 
 object = "all";
 
