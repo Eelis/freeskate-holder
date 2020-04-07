@@ -24,8 +24,8 @@ As of April 2020, printing the holder in standard PLA at 20% infill (which is pl
 ## Prerequisites
 
 - OpenSCAD
-- 2x spring from laundry peg
-- 2x 4cm M3 bolt
+- 2x torsion spring from laundry peg
+- 2x 35mm M3 bolt
 - 2x M3 nut
 
 ## Usage

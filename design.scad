@@ -18,7 +18,8 @@ corner_radius = 40;
 skate_overlap = 25;
 spring_wire_width = 1.3;
 cliphouse_wall_width = 3;
-clip_width = spring_axle_length + 2 * cliphouse_wall_width;
+cliphouse_side_wall_width = 5;
+clip_width = spring_axle_length + 2 * clip_wall_width;
 epsilon = 0.01;
 gap = 0.5;
 
@@ -154,9 +155,9 @@ module clip() {
                           spring_arm_length]);
 
             }
-                rotate([0,90,0])
-                    translate([0,0,-epsilon])
-                        cylinder(h=clip_wall_width+2*epsilon,r=bolt_diameter/2);
+            rotate([0,90,0])
+                translate([0,0,-epsilon])
+                    cylinder(h=clip_wall_width+2*epsilon,r=bolt_diameter/2);
         }
     }
 
@@ -199,30 +200,53 @@ module cliphouse() {
     module side_wall() {
         difference() {
             union() {
-                
                 translate([0,0,-19])
-                cube([cliphouse_wall_width - gap,
+                cube([cliphouse_side_wall_width - gap,
                       spring_axle_diameter + 2 * cliphouse_wall_width,
                       19]);
 
-                translate([0,cliphouse_wall_width+spring_axle_diameter/2,0])
+                translate([0, cliphouse_wall_width+spring_axle_diameter/2, 0])
                 rotate([0,90,0])
-                cylinder(h=cliphouse_wall_width-gap,r=spring_axle_diameter/2+cliphouse_wall_width);
+                cylinder(h = cliphouse_side_wall_width - gap,
+                         r = spring_axle_diameter / 2 + cliphouse_wall_width);
                 
                 translate([0,0,-19])
                 mirror([0,0,1])
-                prism(cliphouse_wall_width-gap,
+                prism(cliphouse_side_wall_width - gap,
                       spring_axle_diameter + wall_width,
-                        wall_width + deck_thickness+wall_width+spring_arm_length-19);
+                      wall_width + deck_thickness + wall_width +
+                       spring_arm_length-19);
             }
-            translate([-epsilon,cliphouse_wall_width+spring_axle_diameter/2,0])
+
+            translate([-epsilon,
+                       cliphouse_wall_width + spring_axle_diameter / 2,
+                       0])
             rotate([0,90,0])
-            cylinder(h=cliphouse_wall_width+2*epsilon,r=bolt_diameter / 2);
+            cylinder(h = cliphouse_side_wall_width + 2 * epsilon,
+                     r = bolt_diameter / 2);
         }
     }
+
+    difference() {
+        translate([-cliphouse_side_wall_width,
+                   -cliphouse_wall_width - spring_axle_diameter / 2, 0])
+        side_wall();
+
+        translate([-cliphouse_side_wall_width - epsilon, 0, 0])
+        rotate([0, 90, 0])
+        cylinder(h = 2 + epsilon, r=5.5/2 + 0.5);
+    }
+
+    difference() {
+        translate([clip_width + gap,
+                   -cliphouse_wall_width - spring_axle_diameter / 2, 0])
+        side_wall();
+
+        translate([clip_width + cliphouse_side_wall_width - 4, 0, 0])
+        rotate([0, 90, 0])
+        cylinder(h = 4 + epsilon, r=5.5/2 * (2/sqrt(3)) + 0.5, $fn=6);
+    }
     
-    translate([-cliphouse_wall_width,-cliphouse_wall_width-spring_axle_diameter/2,0]) side_wall();
-    translate([clip_width + gap,-cliphouse_wall_width-spring_axle_diameter/2,0]) side_wall();
 }
 
 module deck() {
