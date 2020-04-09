@@ -198,23 +198,43 @@ module clip() {
     translate([spring_axle_length+cliphouse_wall_width,0,0]) side();
 
     difference(){
-        translate([clip_width,0,0])
-        rotate([-90,0,90])
-        arc(h=clip_width,r=spring_arm_length+clip_thickness,a=140,w=clip_thickness);
+        union() {
+            translate([clip_width, 0, 0])
+                rotate([-90, 0, 90])
+                    arc(h = clip_width,
+                        r = spring_arm_length + 4,
+                        a = 140,
+                        w = 4);
+            translate([clip_width, 0, 0])
+                rotate([-90, 0, 90])
+                    arc(h = clip_wall_width,
+                        r = spring_arm_length + 4,
+                        a = 140,
+                        w = 5);
+            translate([clip_wall_width, 0, 0])
+                rotate([-90, 0, 90])
+                    arc(h = clip_wall_width,
+                        r = spring_arm_length + 4,
+                        a = 140,
+                        w = 5);
+        }
 
         translate([0-epsilon,spring_axle_diameter/2+clip_thickness,-spring_arm_length*2])
             cube([clip_width+2*epsilon, spring_arm_length, spring_arm_length*2+epsilon]);
     }
 
-    rotate([90,0,90])
-    arc(h=clip_width,r=spring_axle_diameter / 2 + clip_thickness,a=130,w=wall_width);
-
-    translate([clip_width+3,0,0])
-        rotate([-90,0,90])
-            arc(h=clip_width+2*3,
-                r=spring_arm_length+5,
-                a=147,
-                w=7,
+    rotate([90, 0, 90])
+    arc(h = clip_width,
+        r = spring_axle_diameter / 2 + clip_thickness,
+        a = 130,
+        w = wall_width);
+    
+    translate([clip_width + 3, 0, 0])
+        rotate([-90, 0, 90])
+            arc(h = clip_width+2*3,
+                r = spring_arm_length+6,
+                a = 150,
+                w = 7,
                 start=134);
 }
 
@@ -222,30 +242,30 @@ module cliphouse() {
     // back wall
     translate([-cliphouse_wall_width,
                -cliphouse_wall_width - spring_axle_diameter / 2,
-               -19])
+               -18])
         cube([clip_width + 2 * cliphouse_wall_width,
               cliphouse_wall_width,
-              10-2*gap]);
+              13 - 2 * gap]);
 
     module side_wall() {
         difference() {
             union() {
-                translate([0,0,-19])
+                translate([0, 0, -25])
                 cube([cliphouse_side_wall_width - gap,
                       spring_axle_diameter + 2 * cliphouse_wall_width,
-                      19]);
+                      25]);
 
                 translate([0, cliphouse_wall_width+spring_axle_diameter/2, 0])
-                rotate([0,90,0])
+                rotate([0, 90, 0])
                 cylinder(h = cliphouse_side_wall_width - gap,
                          r = spring_axle_diameter / 2 + cliphouse_wall_width);
 
-                translate([0,0,-19])
+                translate([0,0,-25])
                 mirror([0,0,1])
                 prism(cliphouse_side_wall_width - gap,
                       spring_axle_diameter + wall_width,
                       wall_width + deck_thickness + wall_width +
-                       spring_arm_length-19);
+                       spring_arm_length - 25);
             }
 
             translate([-epsilon,
@@ -432,8 +452,8 @@ module device() {
     mirror([1, 0, 0]) side_wall();
 
     one_end();
-    translate([0,2*skate_length-skate_overlap+8,0])
-        mirror([0,1,0])
+    translate([0, 2 * skate_length - skate_overlap + 8,0])
+        mirror([0, 1, 0])
             one_end();
 }
 
