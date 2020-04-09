@@ -1,4 +1,4 @@
 #!/bin/bash
 set -ev
-openscad -o frame.stl frame.scad
-openscad -o clip.stl clip.scad
+openscad -o stl/frame.stl scad/frame.scad
+openscad -o stl/clip.stl scad/clip.scad
