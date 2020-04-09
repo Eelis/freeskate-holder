@@ -157,16 +157,20 @@ module side_wall() {
           10]);
 
     // lower platform:
-    translate([-epsilon, 90, 0])
+    translate([-epsilon, 55, 0])
         cube([skate_width / 2 + gap_around_skate + epsilon * 2,
-              skate_length + gap_around_skate * 2 - 90 + wall_width + epsilon,
+              10,
+              wall_width]);
+    translate([-epsilon, 120, 0])
+        cube([skate_width / 2 + gap_around_skate + epsilon * 2,
+              skate_length + gap_around_skate * 2 - 120 + wall_width + epsilon,
               wall_width]);
     translate([clip_width/2 + gap, 0, 0])
-        cube([20, 100, wall_width]);
+        cube([20, 130, wall_width]);
 
     // backstop:
     translate([-epsilon, skate_length + gap_around_skate * 2 + wall_width])
-        cube([skate_width / 2 + gap_around_skate + epsilon * 2,
+        cube([skate_width / 4,
               wall_width, 20]);
 }
 
