@@ -20,17 +20,20 @@ from your backpack.
 
 As of April 2020, printing the holder in standard PLA at 20% infill (which is plenty) with an online 3d print service costs about 50 EUR + shipping.
 
+## STL files
 
-## Prerequisites
+- [frame.stl](stl/frame.stl)
+- [clip.stl](stl/clip.stl)
 
-- OpenSCAD
+## Non-printed parts
+
 - 2x torsion spring from laundry peg
 - 2x 35mm M3 bolt
 - 2x M3 nut
 
-## Usage
+## Generating the STL files yourself
 
-Do:
+Install OpenSCAD and run:
 
     ./build.sh
 
