@@ -27,10 +27,12 @@ gap = 0.8; // tried 0.5 but it was slightly too low
 module slice(h, r, a,start=0){
     difference(){
         cylinder(h=h, r=r);
-        rotate([0,0,a])
-        translate([-r,0,-epsilon]) cube([r*2,r,h+epsilon*2]);
-        rotate([0,0,start])
-        translate([-r,-r,-epsilon*2]) cube([r*2,r,h+epsilon*4]);
+        rotate([0, 0, a])
+        translate([-r - epsilon, 0, -epsilon])
+            cube([r * 2 + epsilon * 2, r + epsilon, h + epsilon * 2]);
+        rotate([0, 0, start])
+        translate([-r - epsilon, -r - epsilon, -epsilon * 2])
+            cube([r * 2 + 2 * epsilon, r + epsilon, h + epsilon*4]);
     }
 }
 
@@ -190,13 +192,15 @@ module clip() {
 
             }
             rotate([0,90,0])
-                translate([0,0,-epsilon])
-                    cylinder(h=clip_wall_width+2*epsilon,r=bolt_diameter/2);
+                translate([0, 0, -epsilon])
+                    cylinder(h = clip_wall_width + 2 * epsilon,
+                             r = bolt_diameter / 2);
         }
     }
 
-    translate([0,spring_axle_diameter/2,-spring_arm_length])
+    translate([0, spring_axle_diameter / 2, -spring_arm_length])
         cube([clip_width, clip_thickness, spring_arm_length]);
+
     // side walls
     translate([0,0,0]) side();
     translate([spring_axle_length+cliphouse_wall_width,0,0]) side();
@@ -215,6 +219,7 @@ module clip() {
                         r = spring_arm_length + 4,
                         a = 140,
                         w = 5);
+            
             translate([clip_wall_width, 0, 0])
                 rotate([-90, 0, 90])
                     arc(h = clip_wall_width,
@@ -223,8 +228,11 @@ module clip() {
                         w = 5);
         }
 
-        translate([0-epsilon,spring_axle_diameter/2+clip_thickness,-spring_arm_length*2])
-            cube([clip_width+2*epsilon, spring_arm_length, spring_arm_length*2+epsilon]);
+        translate([-epsilon,
+                   spring_axle_diameter / 2 + clip_thickness,
+                   -spring_arm_length * 2])
+            cube([clip_width + 2 * epsilon,
+                  spring_arm_length, spring_arm_length * 2 + epsilon]);
     }
 
     rotate([90, 0, 90])
@@ -232,7 +240,7 @@ module clip() {
         r = spring_axle_diameter / 2 + clip_thickness,
         a = 130,
         w = wall_width);
-    
+
     translate([clip_width + 3, 0, 0])
         rotate([-90, 0, 90])
             arc(h = clip_width+2*3,
@@ -364,15 +372,15 @@ module one_end() {
 
     if (object == "all")
         translate([-clip_width / 2,
-               -spring_axle_diameter/2,
-               spring_arm_length+deck_thickness+2*3])
-            rotate([23*aflow,0,0])
+                   -spring_axle_diameter / 2,
+                   spring_arm_length + deck_thickness + 2 * 3])
+            rotate([23 * aflow,0,0])
                 clip();
 
     translate([-clip_width / 2,
            -spring_axle_diameter/2,
            wall_width + deck_thickness + wall_width + spring_arm_length])
-    cliphouse();
+        cliphouse();
 }
 
 /* animation:
