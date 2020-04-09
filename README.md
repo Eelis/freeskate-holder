@@ -40,6 +40,6 @@ Don't forget to print the clip twice!
 
 ## Limitations
 
-For now, the dimensions of the holder are fine-tuned for skates that have the rubber brackets attached to them,
-and the holder doesn't work well for skates that don't have the rubber brackets.
-Later, I'll add a version of the holder with dimensions fine-tuned for skates that don't have the rubber brackets.
+For now, the dimensions of the holder are fine-tuned for JMK freeline skates that have the rubber brackets attached to them,
+and the holder doesn't work well for skates from other brands or JMK skates that don't have the rubber brackets.
+Later, I'll add versions of the holder with dimensions fine-tuned for skates from other brands and for JMK skates that don't have the rubber brackets.
