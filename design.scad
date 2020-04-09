@@ -329,11 +329,11 @@ module truck() {
     
     translate([52,0,30])
     rotate([90,0,0])
-    color("black") cylinder(r=35,h=45,center=true);
+    color("#303030") cylinder(r=35,h=45,center=true);
 
     translate([-52,0,30])
     rotate([90,0,0])
-    color("black") cylinder(r=35,h=45,center=true);
+    color("#303030") cylinder(r=35,h=45,center=true);
 }
 
 //translate([clip_wall_width,0,2*3+deck_thickness]) color("grey") spring();
