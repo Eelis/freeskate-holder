@@ -23,7 +23,7 @@ As of April 2020, printing the holder in standard PLA at 20% infill (which is pl
 ## STL files
 
 - [frame.stl](stl/frame.stl)
-- [clip.stl](stl/clip.stl)
+- [clip.stl](stl/clip.stl) (print two copies of this one)
 
 ## Non-printed parts
 
@@ -38,8 +38,6 @@ Install OpenSCAD and run:
     ./build.sh
 
 This will create `frame.stl` and `clip.stl`.
-
-Don't forget to print the clip twice!
 
 ## Limitations
 
