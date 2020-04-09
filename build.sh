@@ -1,4 +1,8 @@
 #!/bin/bash
-set -ev
-openscad -o stl/frame.stl scad/frame.scad
-openscad -o stl/clip.stl scad/clip.scad
+set -e
+
+for part in frame clip
+do
+    echo "Creating $part.stl..."
+    openscad -o stl/$part.stl scad/$part.scad
+done
