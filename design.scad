@@ -312,11 +312,11 @@ module deck() {
     }
 }
 
-module skate() {
+module skate(side) {
     color("red") deck();
     translate([skate_width/2,skate_length/2,30])
-    rotate([0,0,15])
-    truck();
+        rotate([0, 0, side == "left" ? 15 : -15])
+            truck();
 }
 
 module truck() {
@@ -393,57 +393,57 @@ module skates() {
     if (phase == 2) {
         translate([skate_width/2,3 + skate_length+2,3])
         rotate([14*tflow,0,180])
-        skate();
+        skate("left");
         translate([
             -skate_width/2,
             3 + skate_length - skate_overlap,
             3 + deck_thickness + 12])
-        rotate([-7 + 14 * tflow,0,0]) skate();
+        rotate([-7 + 14 * tflow,0,0]) skate("right");
     } else if (phase == 3) {
         translate([skate_width/2, 3 + skate_length+2 - tflow * 40, 3 + tflow*10])
         rotate([14*1,0,180])
-        skate();
+        skate("left");
         translate([
             -skate_width/2,
             3 + skate_length - skate_overlap + tflow * 40,
             3 + deck_thickness + 12 + tflow * 5])
-        rotate([-7 + 14 * 1,0,0]) skate();
+        rotate([-7 + 14 * 1,0,0]) skate("right");
     } else if (phase == 4) {
         translate([skate_width/2, 3 + skate_length+2 - 40, 3 + 10])
         rotate([14*1,0,180])
-        skate();
+        skate("left");
         translate([
             -skate_width/2,
             3 + skate_length - skate_overlap + 1 * 40,
             3 + deck_thickness + 12 + 1 * 5])
-        rotate([-7 + 14 * 1,0,0]) skate();
+        rotate([-7 + 14 * 1,0,0]) skate("right");
     } else if (phase == 5) {
         translate([skate_width / 2, 3 + skate_length+2 - (1 - tflow) * 40, 3 + (1 - tflow)*10])
         rotate([14*1,0,180])
-        skate();
+        skate("left");
         translate([
             -skate_width/2,
             3 + skate_length - skate_overlap + (1 - tflow) * 40,
             3 + deck_thickness + 12 + (1 - tflow) * 5])
-        rotate([-7 + 14 * 1,0,0]) skate();
+        rotate([-7 + 14 * 1,0,0]) skate("right");
     } else if (phase == 6) {
         translate([skate_width / 2, 3 + skate_length+2,3])
         rotate([14*(1 - tflow), 0, 180])
-        skate();
+        skate("left");
         translate([
             -skate_width/2,
             3 + skate_length - skate_overlap,
             3 + deck_thickness + 12])
-            rotate([-7 + 14 * (1 - tflow),0,0]) skate();
+            rotate([-7 + 14 * (1 - tflow),0,0]) skate("right");
     } else {
         translate([skate_width/2,3 + skate_length+2,3])
         rotate([0,0,180])
-        skate();
+        skate("left");
         translate([
-            -skate_width/2,
+            -skate_width / 2,
             3 + skate_length - skate_overlap,
             3 + deck_thickness + 12])
-            rotate([-7,0,0]) skate();
+            rotate([-7,0,0]) skate("right");
     }
 }
 
