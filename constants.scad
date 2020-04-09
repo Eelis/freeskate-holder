@@ -1,0 +1,25 @@
+$fa = 1;
+$fs = 0.4;
+
+skate_width = 143; // measured
+skate_length = 172; // measured
+gap_around_skate = 2;
+wall_width = 3;
+wall_height = 30;
+latch_length = 30;
+latch_width = 20;
+deck_thickness = 12; // measured
+clip_thickness = 3;
+clip_wall_width = 3;
+spring_axle_length = 14; // measured
+spring_axle_diameter = 7; // measured
+spring_arm_length = 21; // measured from axle center
+bolt_diameter = 3;
+corner_radius = 40;
+skate_overlap = 25;
+spring_wire_width = 1.3;
+cliphouse_wall_width = 3;
+cliphouse_side_wall_width = 5;
+clip_width = spring_axle_length + 2 * clip_wall_width;
+epsilon = 0.01;
+gap = 0.8; // tried 0.5 but it was slightly too low
