@@ -22,7 +22,7 @@ cliphouse_wall_width = 3;
 cliphouse_side_wall_width = 5;
 clip_width = spring_axle_length + 2 * clip_wall_width;
 epsilon = 0.01;
-gap = 0.5;
+gap = 0.8; // tried 0.5 but it was slightly too low
 
 module slice(h, r, a,start=0){
     difference(){
