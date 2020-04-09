@@ -127,22 +127,34 @@ module side_wall() {
           wall_height]);
 
     bridge();
-    
+
     // upper platform:
-    translate([-clip_width/2-gap,epsilon+wall_width+skate_length*2-skate_overlap+2,0])
+    translate([-clip_width / 2 - gap,
+               epsilon + wall_width + skate_length * 2 - skate_overlap + 2,
+               0])
     rotate([7, 0, 180])
     cube([20, 176, wall_width]);
-    
-    translate([-epsilon,epsilon+wall_width+skate_length*2-skate_overlap+2,0])
-    rotate([7,0,180])
-    translate([0,126,0])
+
+    translate([epsilon, epsilon + wall_width + skate_length * 2 - skate_overlap + 2, 0])
+    rotate([7, 0, 180])
+    translate([0, 126, 0])
     cube([skate_width / 2 + gap_around_skate + epsilon*2, 50, wall_width]);
 
-    translate([-epsilon,epsilon + wall_width + skate_length*2-skate_overlap+2,0])
-    rotate([0,0,180])
-    rotate([7,0,0])
+    translate([epsilon,
+               epsilon + wall_width + skate_length * 2 - skate_overlap + 2,
+               0])
+    rotate([0, 0, 180])
+    rotate([7, 0, 0])
     translate([0, 58, 0])
-    cube([skate_width / 2 + gap_around_skate + epsilon * 2, 10, wall_width]);
+    cube([skate_width / 2 + gap_around_skate + epsilon * 2,
+          10,
+          wall_width]);
+
+    // support for upper platform:
+    translate([-epsilon, 261, 0])
+    cube([skate_width / 2 + gap_around_skate + epsilon * 2,
+          wall_width,
+          10]);
 
     // lower platform:
     translate([-epsilon, 90, 0])
