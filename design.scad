@@ -478,7 +478,7 @@ module device() {
 object = "all";
 
 if (object == "frame" || object == "all") {
-  device();
+  color("gold") device();
 }
 
 if (object == "skates" || object == "all") {
