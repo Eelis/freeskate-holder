@@ -1,8 +1,9 @@
 $fa = 1;
 $fs = 0.4;
 
-skate_width = 143;
-skate_length = 179;
+skate_width = 143; // measured
+skate_length = 172; // measured
+gap_around_skate = 2;
 wall_width = 3;
 wall_height = 30;
 latch_length = 30;
@@ -83,61 +84,78 @@ module corner() {
     arc(h=wall_width*2, w=wall_width, r=8, a=180);
 }
 
-module side_wall() {
-    translate([skate_width / 2,
-               corner_radius-epsilon,
-               0])
-    cube([wall_width, skate_length*2-skate_overlap - (corner_radius-wall_width)*2 + 2*epsilon+2, wall_height]);
-
-    // bridge:
-    bridge_radius=15;
-    bridge_size=20;
+module bridge() {
+    bridge_radius = 15;
+    bridge_size = 20;
     bridge_offset = skate_length - skate_overlap - wall_width;
 
+    // side
     translate([
-        skate_width/2 - bridge_radius + wall_width,
+        skate_width / 2 + gap_around_skate - bridge_radius + wall_width,
         bridge_offset + bridge_size,
         wall_height])
-        rotate([90,0,0])
-            arc(h=bridge_size,w=wall_width,r=bridge_radius,a=90);
-    translate([0,bridge_offset,wall_height+bridge_radius-wall_width])
-        cube([skate_width / 2 - bridge_radius + wall_width, bridge_size, wall_width]);
-    translate([0,bridge_offset,wall_height-wall_width])
-        cube([skate_width / 2 - bridge_radius + wall_width, wall_width, bridge_radius]);
-    translate([-epsilon,bridge_offset,wall_height-wall_width])
-        cube([skate_width / 2 + epsilon*2, wall_width, wall_width+epsilon]);
+        rotate([90, 0, 0])
+            arc(h = bridge_size, w = wall_width, r = bridge_radius, a = 90);
     
-    translate([skate_width / 2 - bridge_radius + wall_width,
+    // roof
+    translate([0, bridge_offset, wall_height + bridge_radius - wall_width])
+        cube([skate_width / 2 + gap_around_skate - bridge_radius + wall_width, bridge_size, wall_width]);
+
+    // back plate
+    translate([0, bridge_offset, wall_height - wall_width])
+        cube([skate_width / 2 + gap_around_skate + wall_width - bridge_radius + epsilon,
+              wall_width,
+              bridge_radius]);
+
+    translate([-epsilon,bridge_offset,wall_height-wall_width])
+        cube([skate_width / 2 + gap_around_skate + epsilon*2, wall_width, wall_width+epsilon]);
+
+    translate([skate_width / 2 + gap_around_skate - bridge_radius + wall_width,
                bridge_offset + wall_width,
                wall_height])
-    rotate([90,0,0])
-    slice(h=wall_width,r=bridge_radius,a=90);
+        rotate([90, 0, 0])
+            slice(h = wall_width, r = bridge_radius, a = 90);
+
+}
+
+module side_wall() {
+    translate([skate_width / 2 + gap_around_skate,
+               corner_radius-epsilon,
+               0])
+    cube([wall_width,
+          skate_length * 2 - skate_overlap - (corner_radius-wall_width) * 2 + 2 * epsilon + 2,
+          wall_height]);
+
+    bridge();
     
     // upper platform:
-    
     translate([-clip_width/2-gap,epsilon+wall_width+skate_length*2-skate_overlap+2,0])
-    rotate([7,0,180])
-    cube([20,176,wall_width]);
+    rotate([7, 0, 180])
+    cube([20, 176, wall_width]);
     
     translate([-epsilon,epsilon+wall_width+skate_length*2-skate_overlap+2,0])
     rotate([7,0,180])
     translate([0,126,0])
-    cube([skate_width / 2 + epsilon*2, 50, wall_width]);
+    cube([skate_width / 2 + gap_around_skate + epsilon*2, 50, wall_width]);
 
     translate([-epsilon,epsilon + wall_width + skate_length*2-skate_overlap+2,0])
-    rotate([7,0,180])
+    rotate([0,0,180])
+    rotate([7,0,0])
     translate([0, 58, 0])
-    cube([skate_width / 2 + epsilon * 2, 10, wall_width]);
-    
+    cube([skate_width / 2 + gap_around_skate + epsilon * 2, 10, wall_width]);
+
     // lower platform:
     translate([-epsilon, 90, 0])
-        cube([skate_width/2 + epsilon*2, 100, wall_width]);
+        cube([skate_width / 2 + gap_around_skate + epsilon * 2,
+              skate_length + gap_around_skate * 2 - 90 + wall_width + epsilon,
+              wall_width]);
     translate([clip_width/2 + gap, 0, 0])
         cube([20, 100, wall_width]);
-    
+
     // backstop:
-    translate([-epsilon, 188])
-        cube([skate_width/2 + epsilon*2, wall_width, 20]);
+    translate([-epsilon, skate_length + gap_around_skate * 2 + wall_width])
+        cube([skate_width / 2 + gap_around_skate + epsilon * 2,
+              wall_width, 20]);
 }
 
 module clip() {
@@ -196,7 +214,7 @@ module cliphouse() {
         cube([clip_width + 2 * cliphouse_wall_width,
               cliphouse_wall_width,
               10-2*gap]);
-    
+
     module side_wall() {
         difference() {
             union() {
@@ -209,7 +227,7 @@ module cliphouse() {
                 rotate([0,90,0])
                 cylinder(h = cliphouse_side_wall_width - gap,
                          r = spring_axle_diameter / 2 + cliphouse_wall_width);
-                
+
                 translate([0,0,-19])
                 mirror([0,0,1])
                 prism(cliphouse_side_wall_width - gap,
@@ -246,7 +264,6 @@ module cliphouse() {
         rotate([0, 90, 0])
         cylinder(h = 4 + epsilon, r=5.5/2 * (2/sqrt(3)) + 0.5, $fn=6);
     }
-    
 }
 
 module deck() {
@@ -287,20 +304,21 @@ module truck() {
 //$t = 1;
 
 module fullcorner() {
-    translate([corner_radius-skate_width / 2 - wall_width,corner_radius,0])
+    translate([corner_radius - skate_width / 2 - gap_around_skate - wall_width,corner_radius,0])
     rotate([0,0,180])
     corner();
-    translate([-skate_width / 2 + corner_radius - wall_width, 0, 0])
-    cube([skate_width / 2 - corner_radius - clip_width / 2 + wall_width - gap, wall_width, wall_height]);
+    translate([-skate_width / 2 - gap_around_skate + corner_radius - wall_width, 0, 0])
+    cube([skate_width / 2 + gap_around_skate - corner_radius - clip_width / 2 + wall_width - gap,
+          wall_width, wall_height]);
 }
 
 module one_end() {
     fullcorner();
     mirror([1,0,0]) fullcorner();
-    
+
     phase = anim_phase();
     tflow = ($t * 8) - phase;
-    
+
     aflow = (phase == 1 ? 1-tflow :
              phase == 2 ? 0 :
              phase == 3 ? tflow :
@@ -399,7 +417,7 @@ module skates() {
 
 module device() {
     side_wall();
-    mirror([1,0,0]) side_wall();
+    mirror([1, 0, 0]) side_wall();
 
     one_end();
     translate([0,2*skate_length-skate_overlap+8,0])
