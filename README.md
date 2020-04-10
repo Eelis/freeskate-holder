@@ -27,9 +27,9 @@ As of April 2020, printing the holder in standard PLA at 20% infill (which is pl
 
 ## Non-printed parts
 
-- 2x torsion spring from laundry peg
-- 2x 35mm M3 bolt
-- 2x M3 nut
+- ![spring](img/spring.jpg) 2x torsion spring from laundry peg
+- ![bolt](img/bolt.jpg) 2x 35mm M3 bolt
+- ![nut](img/nut_.jpg) 2x M3 nut
 
 ## Generating the STL files yourself
 
