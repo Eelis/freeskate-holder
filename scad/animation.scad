@@ -55,7 +55,7 @@ if (phase == 2) {
     translate([
         -skate_width/2,
         3 + skate_length - skate_overlap,
-        3 + deck_thickness + 12])
+        3 + deck_thickness + 10])
         rotate([-7 + 14 * tflow,0,0])
             skate("right");
 } else if (phase == 3) {
@@ -67,7 +67,7 @@ if (phase == 2) {
     translate([
         -skate_width/2,
         3 + skate_length - skate_overlap + tflow * move_out,
-        3 + deck_thickness + 12 + tflow * move_out_z_r])
+        3 + deck_thickness + 10 + tflow * move_out_z_r])
         rotate([-7 + 14 * 1, 0, 0])
             skate("right");
 } else if (phase == 4) {
@@ -79,7 +79,7 @@ if (phase == 2) {
     translate([
         -skate_width/2,
         3 + skate_length - skate_overlap + move_out,
-        3 + deck_thickness + 12 + move_out_z_r])
+        3 + deck_thickness + 10 + move_out_z_r])
         rotate([-7 + 14 * 1, 0, 0])
             skate("right");
 } else if (phase == 5) {
@@ -91,7 +91,7 @@ if (phase == 2) {
     translate([
         -skate_width/2,
         3 + skate_length - skate_overlap + (1 - tflow) * move_out,
-        3 + deck_thickness + 12 + (1 - tflow) * move_out_z_r])
+        3 + deck_thickness + 10 + (1 - tflow) * move_out_z_r])
         rotate([-7 + 14 * 1, 0, 0])
             skate("right");
 } else if (phase == 6) {
@@ -101,7 +101,7 @@ if (phase == 2) {
     translate([
         -skate_width/2,
         3 + skate_length - skate_overlap,
-        3 + deck_thickness + 12])
+        3 + deck_thickness + 10])
         rotate([-7 + 14 * (1 - tflow), 0, 0])
             skate("right");
 } else {
@@ -111,7 +111,7 @@ if (phase == 2) {
     translate([
         -skate_width / 2,
         3 + skate_length - skate_overlap,
-        3 + deck_thickness + 12])
+        3 + deck_thickness + 10])
         rotate([-7, 0, 0])
             skate("right");
 }
