@@ -17,47 +17,55 @@ module corner() {
 
 module bridge() {
     bridge_height = 13;
-    bridge_size = 20;
+    bridge_size = 25;
     bridge_offset = skate_length - skate_overlap - wall_width;
 
     // side
     translate([skate_width / 2 + gap_around_skate,
-               bridge_offset + bridge_size + 100,
+               bridge_offset + corner_radius + 100,
                wall_height])
         mirror([0, 1, 0])
             prism(wall_width, 100, bridge_height);
 
-    translate([skate_width / 2 + gap_around_skate,
-               bridge_offset + wall_width - epsilon,
-               wall_height])
-        cube([wall_width,
-              bridge_size - wall_width + epsilon,
-              bridge_height]);
-
-    
     // roof
     translate([0,
                bridge_offset + wall_width - epsilon,
                wall_height + bridge_height - wall_width])
-        cube([skate_width / 2 + gap_around_skate + wall_width,
+        cube([skate_width / 2 + gap_around_skate + wall_width - corner_radius,
               bridge_size - wall_width + epsilon,
               wall_width]);
-    translate([0,
-               bridge_offset + wall_width,
-               wall_height + bridge_height - wall_width])
-        rotate([0, 90, 0])
-            slice(h = skate_width / 2 + gap_around_skate + wall_width,
-                  r = wall_width,
-                  a = 270,
-                  start = 180);
+
+    translate([skate_width / 2 + gap_around_skate + wall_width - corner_radius,
+               bridge_offset + corner_radius,
+               wall_height - wall_width])
+        arc(h = bridge_height + wall_width,
+            w = wall_width,
+            r = corner_radius,
+            start = 270,
+            a = 0);
+
+    difference() {
+        translate([skate_width / 2 + gap_around_skate + wall_width - corner_radius,
+                   bridge_offset + corner_radius,
+                   wall_height - wall_width + bridge_height])
+            slice(h = wall_width,
+                  r = corner_radius,
+                  start = 270,
+                  a = 0);
+
+        translate([0,
+                   bridge_offset + bridge_size - epsilon,
+                   wall_height + bridge_height - wall_width - 10])
+            cube([100, 30, 30]);
+    }
 
     // back plate
     translate([-epsilon,
                bridge_offset,
                wall_height - wall_width])
-        cube([skate_width / 2 + gap_around_skate + wall_width + epsilon,
+        cube([skate_width / 2 + gap_around_skate + wall_width + epsilon - corner_radius,
               wall_width,
-              bridge_height]);
+              bridge_height + wall_width]);
 }
 
 module side_wall() {
@@ -81,9 +89,9 @@ module side_wall() {
                epsilon + wall_width + skate_length * 2 - skate_overlap + 2,
                0])
         rotate([7, 0, 180])
-            translate([0, 126, 0])
+            translate([0, 140, 0])
                 cube([skate_width / 2 + gap_around_skate + epsilon*2,
-                      50,
+                      10,
                       wall_width]);
 
     translate([epsilon,
@@ -116,7 +124,7 @@ module side_wall() {
 
     // backstop:
     translate([-epsilon, skate_length + gap_around_skate * 2 + wall_width])
-        cube([skate_width / 4,
+        cube([skate_width / 2 + gap_around_skate + epsilon,
               wall_width,
               20]);
 }
