@@ -1,15 +1,22 @@
 include <constants.scad>
 use <util.scad>
+use <truck.scad>
+
+bracket_thickness = 1.5;
+wheel_width = 43;
+wheel_radius = 36;
 
 module deck() {
     r = 40;
     bracket_width = 14;
 
     color("#b0b0b0")
-        translate([bracket_width, bracket_width, 1])
+        translate([bracket_width,
+                   bracket_width,
+                   bracket_thickness])
             rounded_cube(skate_width - bracket_width * 2 + epsilon,
                          skate_length - bracket_width * 2 + epsilon,
-                         deck_thickness - 2,
+                         deck_thickness - bracket_thickness * 2,
                          r - bracket_width + epsilon);
 
     // rubber bracket:
@@ -25,28 +32,47 @@ module deck() {
         }
 }
 
-wheel_width = 43;
-wheel_radius = 35;
-truck_height = 55;
+$fa = 1;
+$fs = 0.4;
+
+module tyre() {
+    tyre_diameter = 22;
+    intersection() {
+        scale([1, 1, 2])
+            rotate_extrude(angle = 360) 
+                translate([wheel_radius - tyre_diameter / 2, 0])
+                    circle(d = tyre_diameter);
+        cylinder(h=40, r=90, center=true);
+    }
+}
+
+module wheel() {
+    color("#303030") tyre();
+    
+    // axle
+    color("grey")
+    translate([0, 0, -truck_full_width / 2 + epsilon])
+    cylinder(h = truck_full_width - 2 * epsilon, r = 6);
+
+    // bearing
+    color("grey")
+    translate([0, 0, -10])
+    cylinder(h = 20, r = 20);
+}
 
 module wheels() {
     translate([52, 0, 30])
         rotate([90, 0, 0])
-            color("#303030")
-                cylinder(r = wheel_radius, h = wheel_width, center = true);
+            wheel();
 
     translate([-52, 0, 30])
         rotate([90, 0, 0])
-            color("#303030")
-                cylinder(r = wheel_radius, h = wheel_width, center = true);
+            wheel();
 }
 
-module truck() {
-    translate([0, 0, 10])
-        color("#b0b0b0")
-            cube([121, 55, truck_height], center = true);
-
-    wheels();
+module assembled_truck() {
+    mirror([0, 0, 1]) truck();
+    translate([0, 0, 19]) wheels();
 }
 
 module skate(side) {
@@ -54,9 +80,9 @@ module skate(side) {
 
     translate([skate_width / 2,
                skate_length / 2,
-               truck_height / 2])
+               deck_thickness - bracket_thickness])
         rotate([0, 0, side == "left" ? 15 : -15])
-            truck();
+            assembled_truck();
 }
 
 skate("left");

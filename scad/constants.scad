@@ -3,6 +3,14 @@ $fs = 0.4;
 
 skate_width = 143; // measured
 skate_length = 172; // measured
+truck_frame_top_length = 102;
+truck_middle_length = 132;
+truck_bottom_length = 114;
+truck_sheet_thickness = 3;
+truck_middle_height = 36;
+truck_frame_height = 54;
+truck_full_width = 55;
+truck_frame_connection_width = 6;
 gap_around_skate = 2;
 wall_width = 3;
 wall_height = 30;
