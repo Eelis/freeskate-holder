@@ -10,7 +10,6 @@ This is a design for a freeline skate holder that:
 - confirms successful insertion with a loud click
 - uses gravity-assisted ejection
 - can be printed with any 3d printer or online 3d print service
-- aside from the printed parts only requires two additional laundry peg springs and standard M3 nuts and bolts
 - is free and open source
 - is made with OpenSCAD
 
@@ -30,6 +29,7 @@ As of April 2020, printing the holder in standard PLA at 20% infill (which is pl
 - ![spring](img/spring.jpg) 2x torsion spring from laundry peg
 - ![bolt](img/bolt.jpg) 2x 35mm M3 bolt
 - ![nut](img/nut_.jpg) 2x M3 nut
+- ![cord](img/cord.jpg) some cord/rope (to tie the holder underneath the backpack)
 
 ## Generating the STL files yourself
 
