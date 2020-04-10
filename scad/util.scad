@@ -73,3 +73,16 @@ module spring() {
             cylinder(h = spring_axle_length * 0.75,
                      r = spring_wire_width / 2);
 }
+
+module rounded_cube(w, l, h, r) {
+    hull() {
+        translate([r, r, 0])
+            cylinder(h = h, r = r);
+        translate([w - r, r, 0])
+            cylinder(h = h, r = r);
+        translate([r, l - r, 0])
+            cylinder(h = h, r = r);
+        translate([w - r, l - r, 0])
+            cylinder(h = h, r = r);
+    }
+}
