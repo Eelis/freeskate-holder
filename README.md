@@ -26,10 +26,10 @@ As of April 2020, printing the holder in standard PLA at 20% infill (which is pl
 
 ## Non-printed parts
 
-- ![spring](img/spring.jpg) 2x torsion spring from laundry peg
-- ![bolt](img/bolt.jpg) 2x 35mm M3 bolt
-- ![nut](img/nut_.jpg) 2x M3 nut
-- ![cord](img/cord.jpg) some cord/rope (to tie the holder underneath the backpack)
+- ![spring](img/spring_.jpg) 2x torsion spring from laundry peg
+- ![bolt](img/bolt_.jpg) 2x 35mm M3 bolt
+- ![nut](img/nut__.jpg) 2x M3 nut
+- ![cord](img/cord_.jpg) some cord/rope (to tie the holder underneath the backpack)
 
 ## Generating the STL files yourself
 
