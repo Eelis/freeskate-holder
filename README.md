@@ -1,4 +1,4 @@
-![animation](http://eel.is/freeskate-holder.gif#)
+![animation](http://eel.is/freeskate-holder.gif#0)
 
 # Freeskate Holder
 
