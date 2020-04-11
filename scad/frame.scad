@@ -53,7 +53,7 @@ module bridge() {
                bridge_offset + wall_width - epsilon,
                wall_height + bridge_height - wall_width])
         cube([skate_width / 2 + gap_around_skate + wall_width - corner_radius,
-              bridge_size - wall_width + epsilon,
+              bridge_size - wall_width,
               wall_width]);
 
 
@@ -99,12 +99,6 @@ module side_wall() {
         rotate([7.4, 0, 180])
             cube([20, 181, wall_width]);
 
-    // support for upper platform:
-    translate([-epsilon, 247, 0])
-        cube([skate_width / 2 + gap_around_skate + epsilon * 2,
-              wall_width,
-              12]);
-
     // lower platform:
     translate([-epsilon, 80, 0])
         cube([skate_width / 2 + gap_around_skate + epsilon * 2,
@@ -113,22 +107,45 @@ module side_wall() {
     translate([clip_width / 2 + gap, 0, 0])
         cube([20, 181, wall_width]);
 
-    // backstop:
-    translate([-epsilon,
-               skate_length + gap_around_skate * 2 + wall_width,
-               0])
-        cube([skate_width / 2 + gap_around_skate + wall_width - corner_radius + epsilon * 2,
-              wall_width,
-              20]);
+    difference() {
+        union() {
+            // lower backstop
+            translate([-epsilon,
+                       skate_length + gap_around_skate * 2 + wall_width,
+                       0])
+                cube([skate_width / 2 + gap_around_skate + wall_width - corner_radius
+                       + epsilon * 2,
+                      wall_width,
+                      wall_height]);
+                
+            // lower backstop corner
+            translate([skate_width / 2 + gap_around_skate + wall_width - corner_radius,
+                       skate_length + gap_around_skate * 2
+                        + 2 * wall_width - corner_radius,
+                       0])
+                arc(h = wall_height,
+                    w = wall_width,
+                    r = corner_radius,
+                    start = 0,
+                    a = 90);
+            
+            // support for upper platform
+            translate([-epsilon, 247, 0])
+                cube([skate_width / 2 + gap_around_skate + epsilon * 2,
+                      wall_width,
+                      wall_height]);
+        }
 
-    translate([skate_width / 2 + gap_around_skate + wall_width - corner_radius,
-               skate_length + gap_around_skate * 2 + 2 * wall_width - corner_radius,
-               0])
-        arc(h = 20,
-            w = wall_width,
-            r = corner_radius,
-            start = 0,
-            a = 90);
+        // space above upper platform
+        mirror([1, 0, 0])
+            translate([epsilon * 2,
+                   epsilon + wall_width + skate_length * 2 - skate_overlap + 2,
+                   wall_width])
+                rotate([7.4, 0, 180])
+                    cube([skate_width / 2 + gap_around_skate + epsilon * 2,
+                          200,
+                          50]);
+    }
 }
 
 module cliphouse() {
