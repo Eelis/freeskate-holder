@@ -20,9 +20,9 @@ module truck_frame_side() {
                 linear_extrude(height = truck_sheet_thickness)
                     truck_frame_profile();
                 translate([0, 7, -epsilon])
-                linear_extrude(height = truck_sheet_thickness + epsilon * 2)
-                    scale(0.7)
-                        truck_frame_profile();
+                    linear_extrude(height = truck_sheet_thickness + epsilon * 2)
+                        scale(0.7)
+                            truck_frame_profile();
             }
 }
 
@@ -51,7 +51,7 @@ module truck_frame() {
 module truck() {
     color("#b0b0b0")
         translate([0, 0, -truck_frame_connection_width])
-        truck_frame();
+            truck_frame();
     translate([0, 0, -truck_frame_connection_width / 2])
         truck_frame_connection();
 }

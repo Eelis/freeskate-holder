@@ -117,7 +117,7 @@ module side_wall() {
                        + epsilon * 2,
                       wall_width,
                       wall_height]);
-                
+
             // lower backstop corner
             translate([skate_width / 2 + gap_around_skate + wall_width - corner_radius,
                        skate_length + gap_around_skate * 2
@@ -128,7 +128,7 @@ module side_wall() {
                     r = corner_radius,
                     start = 0,
                     a = 90);
-            
+
             // support for upper platform
             translate([-epsilon, 247, 0])
                 cube([skate_width / 2 + gap_around_skate + epsilon * 2,

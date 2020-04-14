@@ -20,11 +20,11 @@ module deck() {
                          r - bracket_width + epsilon);
 
     // rubber bracket:
-    color("#303030") 
+    color("#303030")
         difference() {
             rounded_cube(skate_width,
                          skate_length, deck_thickness, r);
-            
+
             translate([bracket_width, bracket_width, -epsilon])
             rounded_cube(skate_width - bracket_width * 2,
                          skate_length - bracket_width * 2,
@@ -48,7 +48,7 @@ module tyre() {
 
 module wheel() {
     color("#303030") tyre();
-    
+
     // axle
     color("grey")
     translate([0, 0, -truck_full_width / 2 + epsilon])
