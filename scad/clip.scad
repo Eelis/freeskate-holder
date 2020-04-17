@@ -41,22 +41,30 @@ module clip() {
                 rotate([-90, 0, 90])
                     arc(h = clip_width,
                         r = spring_arm_length + 4,
-                        a = 140,
-                        w = 4);
-            translate([clip_width, 0, 0])
-                rotate([-90, 0, 90])
-                    arc(h = clip_wall_width,
-                        r = spring_arm_length + 4,
-                        a = 140,
-                        w = 5);
+                        a = 130,
+                        w = 8);
+           hull() {
+                translate([clip_width, 0, 0])
+                    rotate([-90, 0, 90])
+                        arc(h = clip_width,
+                            r = spring_arm_length + 4,
+                            a = 130,
+                            w = 8,
+                            start = 129);
+                translate([0, -23, -20])
+                    rotate([20, 0, 0])
+                        cube([clip_width, 8, 5]);
+           }
 
-            translate([clip_wall_width, 0, 0])
-                rotate([-90, 0, 90])
-                    arc(h = clip_wall_width,
-                        r = spring_arm_length + 4,
-                        a = 140,
-                        w = 5);
+            translate([-4, -23, -20])
+                rotate([20, 0, 0])
+                    cube([clip_width + 8, 8, 5]);
         }
+
+        translate([clip_width - clip_wall_width, 0, 0])
+            rotate([-90, 0, 90])
+                cylinder(h = clip_width - 2 * clip_wall_width,
+                    r = spring_arm_length);
 
         translate([-epsilon,
                    spring_axle_diameter / 2 + clip_thickness,
@@ -66,19 +74,12 @@ module clip() {
                   spring_arm_length * 2 + epsilon]);
     }
 
+    // roof
     rotate([90, 0, 90])
         arc(h = clip_width,
             r = spring_axle_diameter / 2 + clip_thickness,
             a = 130,
             w = wall_width);
-
-    translate([clip_width + 3, 0, 0])
-        rotate([-90, 0, 90])
-            arc(h = clip_width + 2 * 3,
-                r = spring_arm_length + 6,
-                a = 150,
-                w = 7,
-                start = 134);
 }
 
 color("gold") clip();

@@ -32,9 +32,6 @@ module deck() {
         }
 }
 
-$fa = 1;
-$fs = 0.4;
-
 module tyre() {
     tyre_diameter = 22;
     intersection() {

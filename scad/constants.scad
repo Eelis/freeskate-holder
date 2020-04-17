@@ -1,5 +1,5 @@
-$fa = 1;
-$fs = 0.4;
+$fa = 4;
+$fs = 1;
 
 skate_width = 143; // measured
 skate_length = 172; // measured
@@ -30,4 +30,4 @@ cliphouse_wall_width = 3;
 cliphouse_side_wall_width = 5;
 clip_width = spring_axle_length + 2 * clip_wall_width;
 epsilon = 0.01;
-gap = 0.8; // tried 0.5 but it was slightly too low
+gap = 0.7; // tried 0.5 but it was slightly too low

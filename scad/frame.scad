@@ -150,12 +150,18 @@ module side_wall() {
 
 module cliphouse() {
     // back wall
-    translate([-cliphouse_wall_width,
-               -cliphouse_wall_width - spring_axle_diameter / 2,
-               -18])
-        cube([clip_width + 2 * cliphouse_wall_width,
-              cliphouse_wall_width,
-              13 - 2 * gap]);
+    difference() {
+        translate([-cliphouse_wall_width,
+                   -cliphouse_wall_width - spring_axle_diameter / 2,
+                   -15])
+            cube([clip_width + 2 * cliphouse_wall_width,
+                  cliphouse_wall_width,
+                  11 ]);
+
+        translate([-50, 0, 0])
+            rotate([0, 90, 0])
+                cylinder(r = spring_axle_diameter / 2 + clip_thickness + gap, h = 100);
+    }
 
     module side_wall() {
         difference() {
