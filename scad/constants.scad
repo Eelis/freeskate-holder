@@ -1,4 +1,4 @@
-$fa = 4;
+$fa = 1;
 $fs = 1;
 
 skate_width = 143; // measured
