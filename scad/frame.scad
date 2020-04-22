@@ -45,7 +45,7 @@ module bridge() {
             mirror([0, 0, 1])
                 prism(100,
                       110 + epsilon,
-                      bridge_height + epsilon * 2);
+                      bridge_height + epsilon * 2); 
     }
 
     // roof
@@ -83,21 +83,21 @@ module bridge() {
 
 module side_wall() {
     translate([skate_width / 2 + gap_around_skate,
-               corner_radius-epsilon,
+               corner_radius - epsilon,
                0])
         cube([wall_width,
               skate_length * 2 - skate_overlap
-               - (corner_radius - wall_width) * 2 + 2 * epsilon + 2,
+               - (corner_radius - wall_width) * 2 + 2 * epsilon - 2,
               wall_height]);
 
     bridge();
 
     // upper platform:
-    translate([-clip_width / 2 - gap,
-               epsilon + wall_width + skate_length * 2 - skate_overlap + 2,
+    translate([clip_width / 2 + gap + 20,
+               epsilon + wall_width + skate_length * 2 - skate_overlap - 2,
                0])
         rotate([7.4, 0, 180])
-            cube([20, 181, wall_width]);
+            cube([20, 177, wall_width]);
 
     // lower platform:
     translate([-epsilon, 80, 0])
@@ -139,7 +139,7 @@ module side_wall() {
         // space above upper platform
         mirror([1, 0, 0])
             translate([epsilon * 2,
-                   epsilon + wall_width + skate_length * 2 - skate_overlap + 2,
+                   epsilon + wall_width + skate_length * 2 - skate_overlap - 2,
                    wall_width])
                 rotate([7.4, 0, 180])
                     cube([skate_width / 2 + gap_around_skate + epsilon * 2,
@@ -245,7 +245,7 @@ module frame() {
     mirror([1, 0, 0]) side_wall();
 
     one_end();
-    translate([0, 2 * skate_length - skate_overlap + 8, 0])
+    translate([0, 2 * skate_length - skate_overlap + 4, 0])
         mirror([0, 1, 0])
             one_end();
 }

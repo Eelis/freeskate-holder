@@ -35,7 +35,7 @@ module scene() {
         rotate([23 * aflow,0,0])
             color("gold") clip();
 
-    translate([0, 2 * skate_length - skate_overlap + 8, 0])
+    translate([0, 2 * skate_length - skate_overlap + 4, 0])
         mirror([0, 1, 0])
             translate([-clip_width / 2,
                        -spring_axle_diameter / 2,
@@ -57,7 +57,7 @@ module scene() {
                 skate("left");
         translate([
             -skate_width/2,
-            3 + skate_length - skate_overlap,
+            skate_length - skate_overlap + tflow * 3,
             rbase_z])
             rotate([-7 + 14 * tflow, 0, 0])
                 skate("right");
@@ -69,7 +69,7 @@ module scene() {
                 skate("left");
         translate([
             -skate_width / 2,
-            3 + skate_length - skate_overlap + tflow * move_out,
+            skate_length - skate_overlap + 3 + tflow * move_out,
             rbase_z + tflow * move_out_z_r])
             rotate([-7 + 14 * 1, 0, 0])
                 skate("right");
@@ -81,7 +81,7 @@ module scene() {
                 skate("left");
         translate([
             -skate_width / 2,
-            3 + skate_length - skate_overlap + move_out,
+            skate_length - skate_overlap + 3 + move_out,
             rbase_z + move_out_z_r])
             rotate([-7 + 14 * 1, 0, 0])
                 skate("right");
@@ -93,7 +93,7 @@ module scene() {
                 skate("left");
         translate([
             -skate_width / 2,
-            3 + skate_length - skate_overlap + (1 - tflow) * move_out,
+            skate_length - skate_overlap + 3 + (1 - tflow) * move_out,
             rbase_z + (1 - tflow) * move_out_z_r])
             rotate([-7 + 14 * 1, 0, 0])
                 skate("right");
@@ -103,7 +103,7 @@ module scene() {
                 skate("left");
         translate([
             -skate_width / 2,
-            3 + skate_length - skate_overlap,
+            skate_length - skate_overlap + 3 * (1 - tflow),
             rbase_z])
             rotate([-7 + 14 * (1 - tflow), 0, 0])
                 skate("right");
@@ -113,7 +113,7 @@ module scene() {
                 skate("left");
         translate([
             -skate_width / 2,
-            3 + skate_length - skate_overlap,
+            skate_length - skate_overlap,
             rbase_z])
             rotate([-7, 0, 0])
                 skate("right");
