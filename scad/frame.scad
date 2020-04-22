@@ -19,6 +19,7 @@ module bridge() {
     bridge_height = 13;
     bridge_size = 25;
     bridge_offset = skate_length - skate_overlap - wall_width;
+    lower_slope_length = 20;
 
     // side
     difference(){
@@ -32,27 +33,39 @@ module bridge() {
                     r = corner_radius,
                     start = 270,
                     a = 0);
+
             translate([skate_width / 2 + gap_around_skate,
                        bridge_offset + corner_radius + 90,
                        wall_height])
                 mirror([0, 1, 0])
-                    cube([wall_width, 90, bridge_height]);
+                    cube([wall_width,
+                          2 * skate_length - skate_overlap - corner_radius + 2 * wall_width - bridge_offset + lower_slope_length,
+                          bridge_height]);
         }
 
+
         translate([-epsilon,
-                   bridge_offset + bridge_size,
+                   skate_length * 2 - skate_overlap - corner_radius + 2 * wall_width - 30 + epsilon,
                    wall_height + bridge_height + epsilon])
             mirror([0, 0, 1])
                 prism(100,
-                      110 + epsilon,
-                      bridge_height + epsilon * 2); 
-    }
+                      30,
+                      bridge_height + epsilon * 2);
 
+        translate([-epsilon,
+                   bridge_offset - epsilon,
+                   wall_height + bridge_height + epsilon])
+            mirror([0, 1, 0])
+            mirror([0, 0, 1])
+                prism(100,
+                      lower_slope_length,
+                      bridge_height + epsilon * 2);
+    }
     // roof
     translate([0,
                bridge_offset + wall_width - epsilon,
                wall_height + bridge_height - wall_width])
-        cube([skate_width / 2 + gap_around_skate + wall_width - corner_radius,
+        cube([skate_width / 2 + gap_around_skate + wall_width,
               bridge_size - wall_width - 10,
               wall_width]);
 
@@ -76,7 +89,7 @@ module bridge() {
     translate([-epsilon,
                bridge_offset,
                wall_height - 6])
-        cube([skate_width / 2 + gap_around_skate + wall_width + epsilon - corner_radius,
+        cube([skate_width / 2 + gap_around_skate + wall_width + epsilon,
               wall_width,
               bridge_height + 6]);
 }
