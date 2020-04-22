@@ -15,10 +15,11 @@ module corner() {
                 a = 180);
 }
 
+bridge_offset = skate_length - skate_overlap - wall_width;
+
 module bridge() {
     bridge_height = 13;
     bridge_size = 25;
-    bridge_offset = skate_length - skate_overlap - wall_width;
     lower_slope_length = 20;
 
     // side
@@ -61,6 +62,7 @@ module bridge() {
                       lower_slope_length,
                       bridge_height + epsilon * 2);
     }
+
 
     // roof
 
@@ -106,13 +108,6 @@ module side_wall() {
 
     bridge();
 
-    // upper platform:
-    translate([clip_width / 2 + gap + 20,
-               epsilon + wall_width + skate_length * 2 - skate_overlap - 2,
-               0])
-        rotate([7.4, 0, 180])
-            cube([20, skate_length + 2 * wall_width - 1, wall_width]);
-
     // lower platform:
     translate([-epsilon, 55, 0])
         cube([skate_width / 2 + gap_around_skate + epsilon * 2,
@@ -146,6 +141,16 @@ module side_wall() {
                     start = 0,
                     a = 90);
 
+            // upper platform:
+            translate([clip_width / 2 + gap, 0, 0])
+                rotate([90, 0, 90])
+                    linear_extrude(height = 20)
+                    polygon(points=
+                        [ [bridge_offset, wall_height - 6]
+                        , [skate_length * 2 - skate_overlap + gap_around_skate, 0]
+                        , [skate_length * 2 - skate_overlap + gap_around_skate + wall_width, wall_width]
+                        , [bridge_offset + epsilon, wall_height + 20]]);
+
             // support for upper platform
             translate([-epsilon, 247, 0])
                 cube([skate_width / 2 + gap_around_skate + epsilon * 2,
@@ -159,14 +164,14 @@ module side_wall() {
         }
 
         // space above upper platform
-        mirror([1, 0, 0])
-            translate([epsilon * 2,
-                   epsilon + wall_width + skate_length * 2 - skate_overlap - 2,
-                   wall_width])
-                rotate([7.4, 0, 180])
-                    cube([skate_width / 2 + gap_around_skate + epsilon * 2,
-                          200,
-                          50]);
+        translate([-epsilon * 2, 0, 0])
+            rotate([90, 0, 90])
+                linear_extrude(height = 100)
+                polygon(points=
+                    [ [bridge_offset, wall_height - 6 + 2]
+                    , [skate_length * 2 - skate_overlap + gap_around_skate, wall_width]
+                    , [skate_length * 2 - skate_overlap + gap_around_skate + wall_width, wall_height + epsilon]
+                    , [bridge_offset, 100]]);
     }
 }
 
