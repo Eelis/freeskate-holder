@@ -97,7 +97,7 @@ module side_wall() {
                epsilon + wall_width + skate_length * 2 - skate_overlap - 2,
                0])
         rotate([7.4, 0, 180])
-            cube([20, skate_length + 2 * wall_width, wall_width]);
+            cube([20, skate_length + 2 * wall_width - 1, wall_width]);
 
     // lower platform:
     translate([-epsilon, 80, 0])
@@ -132,6 +132,11 @@ module side_wall() {
             translate([-epsilon, 247, 0])
                 cube([skate_width / 2 + gap_around_skate + epsilon * 2,
                       wall_width,
+                      wall_height]);
+
+            translate([19, skate_length + gap_around_skate + wall_width, 0])
+                cube([wall_width,
+                      skate_length - skate_overlap,
                       wall_height]);
         }
 
