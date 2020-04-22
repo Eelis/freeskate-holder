@@ -2,7 +2,7 @@ $fa = 1;
 $fs = 1;
 
 skate_width = 143; // measured
-skate_length = 172; // measured
+skate_length = 171; // measured
 truck_frame_top_length = 102;
 truck_middle_length = 132;
 truck_bottom_length = 114;
