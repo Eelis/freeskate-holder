@@ -155,7 +155,7 @@ module cliphouse() {
                    -15])
             cube([clip_width + 2 * cliphouse_wall_width,
                   cliphouse_wall_width,
-                  11 ]);
+                  10 ]);
 
         translate([-50, 0, 0])
             rotate([0, 90, 0])
