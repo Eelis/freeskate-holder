@@ -111,7 +111,7 @@ module side_wall() {
         union() {
             // lower backstop
             translate([-epsilon,
-                       skate_length + 1 + wall_width,
+                       skate_length + gap_around_skate + wall_width,
                        0])
                 cube([skate_width / 2 + gap_around_skate + wall_width - corner_radius
                        + epsilon * 2,
@@ -120,8 +120,7 @@ module side_wall() {
 
             // lower backstop corner
             translate([skate_width / 2 + gap_around_skate + wall_width - corner_radius,
-                       skate_length + 1
-                        + 2 * wall_width - corner_radius,
+                       skate_length + gap_around_skate + 2 * wall_width - corner_radius,
                        0])
                 arc(h = wall_height,
                     w = wall_width,
@@ -235,7 +234,7 @@ module one_end() {
     mirror([1, 0, 0]) fullcorner();
 
     translate([-clip_width / 2,
-               -spring_axle_diameter/2,
+               -spring_axle_diameter / 2,
                wall_width + deck_thickness + wall_width + spring_arm_length])
         cliphouse();
 }
