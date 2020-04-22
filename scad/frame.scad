@@ -97,7 +97,7 @@ module side_wall() {
                epsilon + wall_width + skate_length * 2 - skate_overlap - 2,
                0])
         rotate([7.4, 0, 180])
-            cube([20, 177, wall_width]);
+            cube([20, skate_length + 2 * wall_width, wall_width]);
 
     // lower platform:
     translate([-epsilon, 80, 0])
@@ -105,13 +105,13 @@ module side_wall() {
               10,
               wall_width]);
     translate([clip_width / 2 + gap, 0, 0])
-        cube([20, 181, wall_width]);
+        cube([20, skate_length + 1 + 2 * wall_width, wall_width]);
 
     difference() {
         union() {
             // lower backstop
             translate([-epsilon,
-                       skate_length + gap_around_skate * 2 + wall_width,
+                       skate_length + 1 + wall_width,
                        0])
                 cube([skate_width / 2 + gap_around_skate + wall_width - corner_radius
                        + epsilon * 2,
@@ -120,7 +120,7 @@ module side_wall() {
 
             // lower backstop corner
             translate([skate_width / 2 + gap_around_skate + wall_width - corner_radius,
-                       skate_length + gap_around_skate * 2
+                       skate_length + 1
                         + 2 * wall_width - corner_radius,
                        0])
                 arc(h = wall_height,
