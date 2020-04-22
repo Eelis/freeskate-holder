@@ -109,6 +109,10 @@ module side_wall() {
     bridge();
 
     // lower platform:
+    translate([-epsilon, 0, 0])
+        cube([20,
+              10,
+              wall_width]);
     translate([-epsilon, 55, 0])
         cube([skate_width / 2 + gap_around_skate + epsilon * 2,
               10,
@@ -141,21 +145,30 @@ module side_wall() {
                     start = 0,
                     a = 90);
 
-            // upper platform:
-            translate([clip_width / 2 + gap, 0, 0])
-                rotate([90, 0, 90])
-                    linear_extrude(height = 20)
-                    polygon(points=
-                        [ [bridge_offset, wall_height - 6]
-                        , [skate_length * 2 - skate_overlap + gap_around_skate, 0]
-                        , [skate_length * 2 - skate_overlap + gap_around_skate + wall_width, wall_width]
-                        , [bridge_offset + epsilon, wall_height + 20]]);
 
             // support for upper platform
             translate([-epsilon, 247, 0])
                 cube([skate_width / 2 + gap_around_skate + epsilon * 2,
                       wall_width,
                       wall_height]);
+
+            // upper platform
+            difference(){
+                translate([-epsilon, 0, 0])
+                    rotate([90, 0, 90])
+                        linear_extrude(height = clip_width / 2 + gap + 20)
+                        polygon(points=
+                            [ [bridge_offset, wall_height - 6]
+                            , [skate_length * 2 - skate_overlap + gap_around_skate, 0]
+                            , [skate_length * 2 - skate_overlap + gap_around_skate + wall_width, 0]
+                            , [skate_length * 2 - skate_overlap + gap_around_skate + wall_width, wall_width]
+                            , [bridge_offset + epsilon, wall_height + 20]]);
+
+                translate([-2 * epsilon,
+                           skate_length - skate_overlap,
+                           -epsilon])
+                    cube([clip_width / 2 + gap, 163, 40]);
+            }
 
             translate([19, skate_length + gap_around_skate + wall_width, 0])
                 cube([wall_width,
@@ -170,9 +183,11 @@ module side_wall() {
                 polygon(points=
                     [ [bridge_offset, wall_height - 6 + 2]
                     , [skate_length * 2 - skate_overlap + gap_around_skate, wall_width]
+                    , [skate_length * 2 - skate_overlap + gap_around_skate + wall_width, wall_width]
                     , [skate_length * 2 - skate_overlap + gap_around_skate + wall_width, wall_height + epsilon]
                     , [bridge_offset, 100]]);
     }
+
 }
 
 module cliphouse() {
