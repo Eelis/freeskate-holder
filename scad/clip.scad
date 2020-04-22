@@ -42,14 +42,14 @@ module clip() {
                     arc(h = clip_width,
                         r = spring_arm_length + 4,
                         a = 130,
-                        w = 8);
+                        w = 9);
            hull() {
                 translate([clip_width, 0, 0])
                     rotate([-90, 0, 90])
                         arc(h = clip_width,
                             r = spring_arm_length + 4,
                             a = 130,
-                            w = 8,
+                            w = 9,
                             start = 129);
                 translate([0, -23, -20])
                     rotate([20, 0, 0])

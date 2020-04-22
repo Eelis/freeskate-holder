@@ -180,10 +180,10 @@ module cliphouse() {
     difference() {
         translate([-cliphouse_wall_width,
                    -cliphouse_wall_width - spring_axle_diameter / 2,
-                   -15])
+                   -14])
             cube([clip_width + 2 * cliphouse_wall_width,
                   cliphouse_wall_width,
-                  10 ]);
+                  9 ]);
 
         translate([-50, 0, 0])
             rotate([0, 90, 0])
