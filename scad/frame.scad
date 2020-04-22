@@ -53,7 +53,7 @@ module bridge() {
                bridge_offset + wall_width - epsilon,
                wall_height + bridge_height - wall_width])
         cube([skate_width / 2 + gap_around_skate + wall_width - corner_radius,
-              bridge_size - wall_width,
+              bridge_size - wall_width - 10,
               wall_width]);
 
 
@@ -67,9 +67,9 @@ module bridge() {
                   a = 0);
 
         translate([0,
-                   bridge_offset + bridge_size - epsilon,
+                   bridge_offset + bridge_size - epsilon - 10,
                    wall_height + bridge_height - wall_width - 10])
-            cube([100, 30, 30]);
+            cube([100, 50, 30]);
     }
 
     // back plate
