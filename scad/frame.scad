@@ -200,7 +200,7 @@ module cliphouse() {
 
         translate([-cliphouse_side_wall_width - epsilon, 0, 0])
             rotate([0, 90, 0])
-                cylinder(h = 2 + epsilon,
+                cylinder(h = epsilon + 2,
                          r = 5.5 / 2 + 0.5);
     }
 
@@ -209,10 +209,10 @@ module cliphouse() {
                    -cliphouse_wall_width - spring_axle_diameter / 2, 0])
             side_wall();
 
-        translate([clip_width + cliphouse_side_wall_width - 4, 0, 0])
+        translate([clip_width + cliphouse_side_wall_width - 2, 0, 0])
             rotate([0, 90, 0])
-                cylinder(h = 4 + epsilon,
-                         r = 5.5 / 2 * (2 / sqrt(3)) + 0.5,
+                cylinder(h = 4,
+                         r = 5.5 / 2 * (2 / sqrt(3)) + 0.25,
                          $fn = 6);
     }
 }
