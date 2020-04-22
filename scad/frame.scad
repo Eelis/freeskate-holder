@@ -61,7 +61,9 @@ module bridge() {
                       lower_slope_length,
                       bridge_height + epsilon * 2);
     }
+
     // roof
+
     translate([0,
                bridge_offset + wall_width - epsilon,
                wall_height + bridge_height - wall_width])
@@ -69,20 +71,19 @@ module bridge() {
               bridge_size - wall_width - 10,
               wall_width]);
 
-
     difference() {
+        translate([skate_width / 2 + gap_around_skate - corner_radius + wall_width + epsilon,
+                   bridge_offset + wall_width - epsilon,
+                   wall_height + bridge_height - wall_width])
+            cube([corner_radius, corner_radius, wall_width]);
+
         translate([skate_width / 2 + gap_around_skate + wall_width - corner_radius,
-                   bridge_offset + corner_radius,
-                   wall_height - wall_width + bridge_height])
-            slice(h = wall_width,
+                   bridge_offset + corner_radius + wall_width,
+                   0])
+            slice(h = 100,
                   r = corner_radius,
                   start = 270,
                   a = 0);
-
-        translate([0,
-                   bridge_offset + bridge_size - epsilon - 10,
-                   wall_height + bridge_height - wall_width - 10])
-            cube([100, 50, 30]);
     }
 
     // back plate
