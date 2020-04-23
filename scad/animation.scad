@@ -20,6 +20,21 @@ phase = floor($t * 8);
 
 tflow = ($t * 8) - phase;
 
+module bolt_head() {
+    difference() {
+        cylinder(r = 3, 2);
+        rotate([0, 0, 45]) cube([10, 1, 2], center = true);
+    }
+}
+
+module bolt() {
+    translate([0, 0, 1])
+        cylinder(r = 1.5, h = clip_width + 2 * cliphouse_side_wall_width);
+    bolt_head();
+    translate([0, 0, clip_width + 2 * cliphouse_side_wall_width - 2])
+        cylinder(r = 3, h = 2, $fn = 6);
+}
+
 module anim_clips() {
     aflow = (phase == 1 ? 1-tflow :
              phase == 2 ? 0 :
@@ -41,6 +56,19 @@ module anim_clips() {
                        spring_arm_length + deck_thickness + 2 * 3])
                 rotate([23 * aflow, 0, 0])
             color("gold") clip();
+
+    color("grey")
+        translate([-clip_width / 2 - cliphouse_side_wall_width,
+                   -spring_axle_diameter / 2,
+                   37.5])
+            rotate([0, 90, 0])
+                bolt();
+    color("grey")
+        translate([-clip_width / 2 - cliphouse_side_wall_width,
+                   spring_axle_diameter / 2 + 4 + 2 * skate_length - skate_overlap,
+                   37.5])
+            rotate([0, 90, 0])
+                bolt();
 }
 
 module anim_skates() {
