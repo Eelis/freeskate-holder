@@ -8,7 +8,8 @@ This is a design for a freeline skate holder that:
 - can be operated behind your back without taking off your backpack
 - can be operated with a single hand per skate
 - confirms successful insertion with a loud click
-- uses gravity-assisted ejection
+- uses a spring-loaded latch to hold the skates securely in place
+- uses a thumb-pressed lever to trigger gravity-assisted ejection
 - can be printed with any 3d printer or online 3d print service
 - is free and open source
 - is made with OpenSCAD
