@@ -25,6 +25,12 @@ module bridge() {
     // side
     difference(){
         union() {
+            translate([skate_width / 2 + gap_around_skate + wall_width, 150, 35])
+                rotate([0,0,90])
+                    rotate_extrude(angle=180)
+                        translate([6,0,0])
+                            circle(5);
+
             translate([skate_width / 2 + gap_around_skate
                         + wall_width - corner_radius,
                        bridge_offset + corner_radius,
@@ -43,6 +49,12 @@ module bridge() {
                           2 * skate_length - skate_overlap - corner_radius + 2 * wall_width - bridge_offset + lower_slope_length,
                           bridge_height]);
         }
+
+        translate([skate_width / 2 + gap_around_skate + wall_width, 150, 35])
+                rotate([0,0,90])
+                    rotate_extrude()
+                        translate([6,0,0])
+                            circle(4);
 
         translate([-epsilon,
                    skate_length * 2 - skate_overlap - corner_radius + 2 * wall_width - 30 + epsilon,
