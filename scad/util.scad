@@ -1,45 +1,23 @@
 include <constants.scad>
 
-module slice(h, r, a,start=0) {
-    difference() {
-        cylinder(h = h, r = r);
-        rotate([0, 0, a])
-            translate([-r - epsilon, 0, -epsilon])
-                cube([r * 2 + epsilon * 2,
-                      r + epsilon,
-                      h + epsilon * 2]);
-        rotate([0, 0, start])
-            translate([-r - epsilon, -r - epsilon, -epsilon * 2])
-                cube([r * 2 + 2 * epsilon,
-                      r + epsilon,
-                      h + epsilon * 4]);
+module slice(h, r, a, start=0) {
+
+    rotate([0, 0, start])
+    rotate_extrude(angle=360-start) {
+        square([r,h]);
     }
 }
 
 module arc(h, r, a, w, start=0) {
-    difference() {
-        slice(h = h, r = r, a = a, start = start);
-        translate([0, 0, -epsilon])
-            cylinder(h = h + 2 * epsilon,
-                     r = r - w);
-    }
+    rotate([0, 0, start])
+        rotate_extrude(angle=a-start)
+            translate([r - w, 0, 0]) square([w, h]);
 }
 
 module prism(l, w, h) {
-    polyhedron(
-        points=[[0,0,0], [l,0,0], [l,w,0], [0,w,0], [0,w,h], [l,w,h]],
-        faces=[[0,1,2,3],[5,4,3,2],[0,4,5,1],[0,3,4],[5,2,1]]);
-}
-
-module ring(h, rinner, router) {
-    difference() {
-        union() {
-            cylinder(h = h, r = router);
-        }
-        translate([0, 0, -epsilon])
-            cylinder(h = h + epsilon * 2,
-                     r = rinner);
-    }
+    rotate([0, 90, 0])
+        linear_extrude(height=l)
+           polygon([[0, 0], [-h,w], [0, w]]);
 }
 
 module spring() {
@@ -74,15 +52,15 @@ module spring() {
                      r = spring_wire_width / 2);
 }
 
+module rounded_square(w, l, r) {
+    translate([r, 0]) square([w - r * 2, l]);
+    translate([0, r]) square([w, l - r * 2]);
+    translate([r, r])         circle(r);
+    translate([w - r, r])     circle(r);
+    translate([r, l - r])     circle(r);
+    translate([w - r, l - r]) circle(r);
+}
+
 module rounded_cube(w, l, h, r) {
-    hull() {
-        translate([r, r, 0])
-            cylinder(h = h, r = r);
-        translate([w - r, r, 0])
-            cylinder(h = h, r = r);
-        translate([r, l - r, 0])
-            cylinder(h = h, r = r);
-        translate([w - r, l - r, 0])
-            cylinder(h = h, r = r);
-    }
+    linear_extrude(height=h) rounded_square(w, l, r);
 }

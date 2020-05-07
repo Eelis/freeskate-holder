@@ -1,5 +1,5 @@
 include <constants.scad>
-use <util.scad>
+include <util.scad>
 
 module clip() {
     module side() {

@@ -21,15 +21,14 @@ module deck() {
 
     // rubber bracket:
     color("#303030")
-        difference() {
-            rounded_cube(skate_width,
-                         skate_length, deck_thickness, r);
+        linear_extrude(height=deck_thickness)
+            difference() {
+                rounded_square(skate_width, skate_length, r);
 
-            translate([bracket_width, bracket_width, -epsilon])
-            rounded_cube(skate_width - bracket_width * 2,
-                         skate_length - bracket_width * 2,
-                         deck_thickness + 2 * epsilon, r - bracket_width);
-        }
+                translate([bracket_width, bracket_width])
+                    rounded_square(skate_width - bracket_width * 2,
+                             skate_length - bracket_width * 2, r - bracket_width);
+            }
 }
 
 module tyre() {
@@ -40,7 +39,7 @@ module tyre() {
                 translate([wheel_radius - tyre_diameter / 2, 0])
                     circle(d = tyre_diameter);
         cylinder(h=40, r=90, center=true);
-    }
+    } // todo: do as extrusion
 }
 
 module wheel() {

@@ -33,7 +33,7 @@ module bridge() {
                     w = wall_width,
                     r = corner_radius,
                     start = 270,
-                    a = 0);
+                    a = 360);
 
             translate([skate_width / 2 + gap_around_skate,
                        bridge_offset + corner_radius + 90,
@@ -43,7 +43,6 @@ module bridge() {
                           2 * skate_length - skate_overlap - corner_radius + 2 * wall_width - bridge_offset + lower_slope_length,
                           bridge_height]);
         }
-
 
         translate([-epsilon,
                    skate_length * 2 - skate_overlap - corner_radius + 2 * wall_width - 30 + epsilon,
@@ -62,7 +61,6 @@ module bridge() {
                       lower_slope_length,
                       bridge_height + epsilon * 2);
     }
-
 
     // roof
 
