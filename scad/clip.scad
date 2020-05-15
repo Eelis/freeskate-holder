@@ -20,7 +20,7 @@ module clip() {
             rotate([0, 90, 0])
                 translate([0, 0, -epsilon])
                     cylinder(h = clip_wall_width + 2 * epsilon,
-                             r = bolt_diameter / 2);
+                             r = bolt_diameter / 2 + 0.2);
         }
     }
 
@@ -35,30 +35,25 @@ module clip() {
     translate([spring_axle_length + cliphouse_wall_width, 0, 0])
         side();
 
+    hull(){
+        translate([0, -20, -16])
+            sphere(5);
+        translate([clip_width, -20, -16])
+            sphere(5);
+    }
+
     difference() {
         union() {
+            rotate([-130 + 90, 0, 0])
+                translate([0, -9, -25])
+                    prism(clip_width, 9, 9);
+
             translate([clip_width, 0, 0])
                 rotate([-90, 0, 90])
                     arc(h = clip_width,
                         r = spring_arm_length + 4,
                         a = 130,
                         w = 9);
-           hull() {
-                translate([clip_width, 0, 0])
-                    rotate([-90, 0, 90])
-                        arc(h = clip_width,
-                            r = spring_arm_length + 4,
-                            a = 130,
-                            w = 9,
-                            start = 129);
-                translate([0, -23, -20])
-                    rotate([20, 0, 0])
-                        cube([clip_width, 8, 5]);
-           }
-
-            translate([-4, -23, -20])
-                rotate([20, 0, 0])
-                    cube([clip_width + 8, 8, 5]);
         }
 
         translate([clip_width - clip_wall_width, 0, 0])

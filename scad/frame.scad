@@ -1,305 +1,190 @@
 include <constants.scad>
 use <util.scad>
+use <skate.scad>
+use <clip.scad>
+use <single.scad>
 
-module corner() {
-    arc(h = wall_height,
-        w = wall_width,
-        r = corner_radius,
-        a = 90);
-
-    translate([corner_radius * 0.7, corner_radius * 0.7, 15])
-        rotate([0, 90, 315])
-            arc(h = wall_width * 2,
-                w = wall_width,
-                r = 8,
-                a = 180);
+module relative_skate_orientation() {
+    translate([0, 2 * (skate_length + 2 * y_gap_around_skate) - skate_overlap, 0])
+        mirror([0, 1, 0])
+            rotate([8, 0, 0])
+                children();
 }
 
-bridge_offset = skate_length - skate_overlap - wall_width;
+module for_both_skates() {
+    children();
+    relative_skate_orientation() children();
+}
+
+bridge_offset = skate_length - skate_overlap - wall_width - 3;
 
 module bridge() {
     bridge_height = 13;
-    bridge_size = 25;
-    lower_slope_length = 20;
-
-    // side
-    difference(){
-        union() {
-            translate([skate_width / 2 + gap_around_skate + wall_width, 150, 35])
-                rotate([0,0,90])
-                    rotate_extrude(angle=180)
-                        translate([6,0,0])
-                            circle(5);
-
-            translate([skate_width / 2 + gap_around_skate
-                        + wall_width - corner_radius,
-                       bridge_offset + corner_radius,
-                       wall_height - 6])
-                arc(h = bridge_height + 6,
-                    w = wall_width,
-                    r = corner_radius,
-                    start = 270,
-                    a = 360);
-
-            translate([skate_width / 2 + gap_around_skate,
-                       bridge_offset + corner_radius + 90,
-                       wall_height])
-                mirror([0, 1, 0])
-                    cube([wall_width,
-                          2 * skate_length - skate_overlap - corner_radius + 2 * wall_width - bridge_offset + lower_slope_length,
-                          bridge_height]);
-        }
-
-        translate([skate_width / 2 + gap_around_skate + wall_width, 150, 35])
-                rotate([0,0,90])
-                    rotate_extrude()
-                        translate([6,0,0])
-                            circle(4);
-
-        translate([-epsilon,
-                   skate_length * 2 - skate_overlap - corner_radius + 2 * wall_width - 30 + epsilon,
-                   wall_height + bridge_height + epsilon])
-            mirror([0, 0, 1])
-                prism(100,
-                      30,
-                      bridge_height + epsilon * 2);
-
-        translate([-epsilon,
-                   bridge_offset - epsilon,
-                   wall_height + bridge_height + epsilon])
-            mirror([0, 1, 0])
-            mirror([0, 0, 1])
-                prism(100,
-                      lower_slope_length,
-                      bridge_height + epsilon * 2);
-    }
-
-    // roof
-
-    translate([0,
-               bridge_offset + wall_width - epsilon,
-               wall_height + bridge_height - wall_width])
-        cube([skate_width / 2 + gap_around_skate + wall_width,
-              bridge_size - wall_width - 10,
-              wall_width]);
 
     difference() {
-        translate([skate_width / 2 + gap_around_skate - corner_radius + wall_width + epsilon,
+        translate([0,
                    bridge_offset + wall_width - epsilon,
                    wall_height + bridge_height - wall_width])
-            cube([corner_radius, corner_radius, wall_width]);
-
-        translate([skate_width / 2 + gap_around_skate + wall_width - corner_radius,
-                   bridge_offset + corner_radius + wall_width,
-                   0])
-            slice(h = 100,
-                  r = corner_radius,
-                  start = 270,
-                  a = 0);
+            cube([skate_width / 2 + 10,
+                  15,
+                  wall_width]);
+        relative_skate_orientation()
+            outer_space();
     }
-
-    // back plate
-    translate([-epsilon,
-               bridge_offset,
-               wall_height - 6])
-        cube([skate_width / 2 + gap_around_skate + wall_width + epsilon,
-              wall_width,
-              bridge_height + 6]);
 }
 
 module side_wall() {
-    translate([skate_width / 2 + gap_around_skate,
-               corner_radius - epsilon,
+    translate([skate_width / 2 + x_gap_around_skate,
+               120,
                0])
-        cube([wall_width,
-              skate_length * 2 - skate_overlap
-               - (corner_radius - wall_width) * 2 + 2 * epsilon - 2,
-              wall_height]);
+        cube([wall_width, 100, lower_wall_height]);
 
-    bridge();
+    difference() {
+        translate([skate_width / 2 + x_gap_around_skate,
+               120,
+               0])
+            cube([wall_width, 80, 28]);
 
-    // lower platform:
-    translate([-epsilon, 0, 0])
-        cube([20,
-              10,
-              wall_width]);
-    translate([-epsilon, 55, 0])
-        cube([skate_width / 2 + gap_around_skate + epsilon * 2,
-              10,
-              wall_width]);
-    translate([-epsilon, 110, 0])
-        cube([skate_width / 2 + gap_around_skate + epsilon * 2,
-              10,
-              wall_width]);
-    translate([clip_width / 2 + gap, 0, 0])
-        cube([20, skate_length + 1 + 2 * wall_width, wall_width]);
+        for_both_skates() inner_space();
+    }
+}
+
+module skirt_profile() {
+    translate([corner_radius - wall_width, 0])
+        rotate(55) {
+            translate([0, -skirt_height])
+                square([wall_width, skirt_height]);
+            translate([wall_width / 2, -skirt_height])
+                circle(wall_width / 2);
+        }
+}
+
+module extrude_skirt() {
+    // skirt side
+    translate([0, corner_radius, 0])
+        mirror([0, 1, 0])
+            rotate([90, 0, 0])
+                linear_extrude(
+                        height=(2 * y_gap_around_skate + skate_length) * 2
+                        - skate_overlap - corner_radius * 2)
+                    translate([skate_width / 2 + x_gap_around_skate - corner_radius + wall_width, 0])
+                        children(); 
+
+    // skirt at one cliphouse
+    translate([0, corner_radius, 0])
+        mirror([1, 0, 0])
+            rotate([0, 0, -90])
+                rotate([90, 0, 0])
+                    linear_extrude(
+                            height = skate_width / 2 + x_gap_around_skate + wall_width
+                                     - corner_radius)
+                        children();
+
+    // skirt at the other cliphouse
+    translate([0, 2 * (skate_length + 2 * y_gap_around_skate) - skate_overlap - corner_radius, 0])
+        rotate([0, 0, 90])
+            rotate([90, 0, 0])
+                linear_extrude(
+                        height = skate_width / 2 + x_gap_around_skate + wall_width
+                                 - corner_radius)
+                    children();
+
+    // skirt corners
+    translate([
+            skate_width / 2 + x_gap_around_skate - corner_radius + wall_width,
+            2 * (2 * y_gap_around_skate + skate_length) - skate_overlap - corner_radius,
+            0])
+        rotate([0, 0, -epsilon])
+            rotate_extrude(angle = 90 + 2 * epsilon)
+                children();
+    translate([
+            skate_width / 2 + x_gap_around_skate - corner_radius + wall_width,
+            corner_radius,
+            0])
+    rotate([0, 0, 270])
+        rotate([0, 0, -epsilon])
+            rotate_extrude(angle = 90 + 2 * epsilon)
+                children();
+}
+
+module skirt_side_hooks() {
+    hook_radius = 3;
+
+    mirror_copy([1, 0, 0])
+        translate([
+                skate_width / 2 + x_gap_around_skate - 8,
+                (2 * (skate_length + 2 * y_gap_around_skate) - skate_overlap) / 2 + 4,
+                3])
+            rotate([90, 0, 0])
+                rotate([0, 0, -50])
+                rotate_extrude(angle = 119)
+                    translate([20, 0])
+                        circle(hook_radius);
+}
+
+module skirt_inner_space() {
+    mirror_copy([1, 0, 0])
+        extrude_skirt()
+            translate([corner_radius - wall_width, 0])
+                rotate(55)
+                    translate([-30, -40])
+                        square([30, 40]);
+
+    translate([-skate_width / 2 + -x_gap_around_skate, wall_width, -40])
+        rounded_cube(
+            r = corner_radius - wall_width,
+            w = skate_width + 2*x_gap_around_skate,
+            h = 40,
+            l = 2*(skate_length+2*y_gap_around_skate)-skate_overlap - 2 * wall_width);
+
+}
+
+module skirt()
+    mirror_copy([1, 0, 0])
+        extrude_skirt()
+            skirt_profile();
+
+module skates(phase = 0)
+    for_both_skates()
+        skate_in_single(phase);
+
+module clips(openness = 0)
+    for_both_skates()
+        clip_in_single(openness);
+
+module frame() {
+    skirt();
+
+    mirror_copy([1, 0, 0])
+        bridge();
 
     difference() {
         union() {
-            // lower backstop
-            translate([-epsilon,
-                       skate_length + gap_around_skate + wall_width,
-                       0])
-                cube([skate_width / 2 + gap_around_skate + wall_width - corner_radius
-                       + epsilon * 2,
-                      wall_width,
-                      wall_height]);
+            difference() {
+                union() {
+                    mirror_copy([1, 0, 0])
+                        side_wall();
+                    single();
+                }
 
-            // lower backstop corner
-            translate([skate_width / 2 + gap_around_skate + wall_width - corner_radius,
-                       skate_length + gap_around_skate + 2 * wall_width - corner_radius,
-                       0])
-                arc(h = wall_height,
-                    w = wall_width,
-                    r = corner_radius,
-                    start = 0,
-                    a = 90);
+                relative_skate_orientation()
+                    inner_space();
+            }
 
-
-            // support for upper platform
-            translate([-epsilon, 247, 0])
-                cube([skate_width / 2 + gap_around_skate + epsilon * 2,
-                      wall_width,
-                      wall_height]);
-
-            // upper platform
             difference(){
-                translate([-epsilon, 0, 0])
-                    rotate([90, 0, 90])
-                        linear_extrude(height = clip_width / 2 + gap + 20)
-                        polygon(points=
-                            [ [bridge_offset, wall_height - 6]
-                            , [skate_length * 2 - skate_overlap + gap_around_skate, 0]
-                            , [skate_length * 2 - skate_overlap + gap_around_skate + wall_width, 0]
-                            , [skate_length * 2 - skate_overlap + gap_around_skate + wall_width, wall_width]
-                            , [bridge_offset + epsilon, wall_height + 20]]);
-
-                translate([-2 * epsilon,
-                           skate_length - skate_overlap,
-                           -epsilon])
-                    cube([clip_width / 2 + gap, 163, 40]);
+                relative_skate_orientation()
+                    single();
+                translate([-200, 120, 43])
+                    cube([400,120,20]);
             }
 
-            translate([19, skate_length + gap_around_skate + wall_width, 0])
-                cube([wall_width,
-                      skate_length - skate_overlap,
-                      wall_height]);
+            skirt_side_hooks();
         }
 
-        // space above upper platform
-        translate([-epsilon * 2, 0, 0])
-            rotate([90, 0, 90])
-                linear_extrude(height = 100)
-                polygon(points=
-                    [ [bridge_offset, wall_height - 6 + 2]
-                    , [skate_length * 2 - skate_overlap + gap_around_skate, wall_width]
-                    , [skate_length * 2 - skate_overlap + gap_around_skate + wall_width, wall_width]
-                    , [skate_length * 2 - skate_overlap + gap_around_skate + wall_width, wall_height + epsilon]
-                    , [bridge_offset, 100]]);
+        skirt_inner_space();
     }
-
-}
-
-module cliphouse() {
-    // back wall
-    difference() {
-        translate([-cliphouse_wall_width,
-                   -cliphouse_wall_width - spring_axle_diameter / 2,
-                   -14])
-            cube([clip_width + 2 * cliphouse_wall_width,
-                  cliphouse_wall_width,
-                  9 ]);
-
-        translate([-50, 0, 0])
-            rotate([0, 90, 0])
-                cylinder(r = spring_axle_diameter / 2 + clip_thickness + gap, h = 100);
-    }
-
-    module side_wall() {
-        difference() {
-            union() {
-                translate([0, 0, -25])
-                    cube([cliphouse_side_wall_width - gap,
-                          spring_axle_diameter + 2 * cliphouse_wall_width,
-                          25]);
-
-                translate([0, cliphouse_wall_width+spring_axle_diameter/2, 0])
-                    rotate([0, 90, 0])
-                        cylinder(h = cliphouse_side_wall_width - gap,
-                                 r = spring_axle_diameter / 2 + cliphouse_wall_width);
-
-                translate([0, 0, -25])
-                    mirror([0, 0, 1])
-                        prism(cliphouse_side_wall_width - gap,
-                              spring_axle_diameter + wall_width,
-                              wall_width + deck_thickness + wall_width +
-                               spring_arm_length - 25);
-            }
-
-            translate([-epsilon,
-                       cliphouse_wall_width + spring_axle_diameter / 2,
-                       0])
-                rotate([0,90,0])
-                    cylinder(h = cliphouse_side_wall_width + 2 * epsilon,
-                             r = bolt_diameter / 2);
-        }
-    }
-
-    difference() {
-        translate([-cliphouse_side_wall_width,
-                   -cliphouse_wall_width - spring_axle_diameter / 2, 0])
-            side_wall();
-
-        translate([-cliphouse_side_wall_width - epsilon, 0, 0])
-            rotate([0, 90, 0])
-                cylinder(h = epsilon + 2,
-                         r = 5.5 / 2 + 0.5);
-    }
-
-    difference() {
-        translate([clip_width + gap,
-                   -cliphouse_wall_width - spring_axle_diameter / 2, 0])
-            side_wall();
-
-        translate([clip_width + cliphouse_side_wall_width - 2, 0, 0])
-            rotate([0, 90, 0])
-                cylinder(h = 4,
-                         r = 5.5 / 2 * (2 / sqrt(3)) + 0.25,
-                         $fn = 6);
-    }
-}
-
-module fullcorner() {
-    translate([corner_radius - skate_width / 2 - gap_around_skate - wall_width,
-               corner_radius,
-               0])
-        rotate([0, 0, 180]) // todo: consider mirror instead
-            corner();
-
-    translate([-skate_width / 2 - gap_around_skate + corner_radius - wall_width, 0, 0])
-        cube([skate_width / 2 + gap_around_skate - corner_radius - clip_width / 2 + wall_width - gap,
-              wall_width,
-              wall_height]);
-}
-
-module one_end() {
-    fullcorner();
-    mirror([1, 0, 0]) fullcorner();
-
-    translate([-clip_width / 2,
-               -spring_axle_diameter / 2,
-               wall_width + deck_thickness + wall_width + spring_arm_length])
-        cliphouse();
-}
-
-module frame() {
-    side_wall();
-    mirror([1, 0, 0]) side_wall();
-
-    one_end();
-    translate([0, 2 * skate_length - skate_overlap + 4, 0])
-        mirror([0, 1, 0])
-            one_end();
 }
 
 color("gold") frame();
+//clips();
+//skates();

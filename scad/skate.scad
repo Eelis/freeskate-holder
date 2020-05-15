@@ -7,7 +7,7 @@ wheel_width = 43;
 wheel_radius = 36;
 
 module deck() {
-    r = 40;
+    r = 50;
     bracket_width = 14;
 
     color("#b0b0b0")

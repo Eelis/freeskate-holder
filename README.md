@@ -18,7 +18,7 @@ One of the amazing things about freeline skates is their portability.
 The main idea of this holder is to leverage that portability and provide an extremely fast way to stash and retrieve a pair of freeline skates
 from your backpack.
 
-As of April 2020, printing the holder in ordinary PLA or PETG filament using an online 3d print service costs about 40 EUR + shipping (at 20% infill, which is plenty).
+As of May 2020, printing the holder in ordinary PLA or PETG filament using an online 3d print service costs about 60 EUR + shipping (at 20% infill, which is plenty).
 
 ## STL files
 
