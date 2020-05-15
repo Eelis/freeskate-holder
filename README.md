@@ -20,11 +20,6 @@ from your backpack.
 
 As of May 2020, printing the holder in ordinary PLA or PETG filament using an online 3d print service costs about 60 EUR + shipping (at 20% infill, which is plenty).
 
-## STL files
-
-- [frame.stl](stl/frame.stl)
-- [clip.stl](stl/clip.stl) (print two copies of this one)
-
 ## Non-printed parts
 
 - ![spring](img/spring_.jpg) 2x torsion spring from laundry peg
@@ -32,7 +27,7 @@ As of May 2020, printing the holder in ordinary PLA or PETG filament using an on
 - ![nut](img/nut__.jpg) 2x M3 nut
 - ![cord](img/cord_.jpg) some cord/rope (to tie the holder underneath the backpack)
 
-## Generating the STL files yourself
+## Generating STL files
 
 Install OpenSCAD and run:
 
