@@ -9,8 +9,8 @@ module wall_profile(lower_height=lower_wall_height) {
         rotate([0, 0, -30]) {
             translate([wall_width / 2, upper_wall_height])
                 circle(wall_width / 2);
-        square([wall_width, upper_wall_height]);
-    }
+            square([wall_width, upper_wall_height]);
+        }
 }
 
 module inner_wall_profile(lower_height=lower_wall_height) {
@@ -19,8 +19,8 @@ module inner_wall_profile(lower_height=lower_wall_height) {
         rotate([0, 0, -30]) {
             translate([wall_width / 2, upper_wall_height])
                 circle(wall_width / 2);
-        square([wall_width, upper_wall_height]);
-    }
+            square([wall_width, upper_wall_height]);
+        }
 }
 
 module corner() {
@@ -159,9 +159,10 @@ module half_single() {
 
     // back wall
     translate([
-        0,
-        wall_width + skate_length + 2 * y_gap_around_skate, 0])
-            rotate([0, 0, 90])
+            0,
+            wall_width + skate_length + 2 * y_gap_around_skate,
+            0])
+        rotate([0, 0, 90])
             rotate([90, 0, 0])
                 linear_extrude(
                     height = skate_width / 2 + x_gap_around_skate + 2 * epsilon - corner_radius + wall_width,
@@ -208,7 +209,9 @@ module cliphouse() {
 
         translate([-50, 0, 0])
             rotate([0, 90, 0])
-                cylinder(r = spring_axle_diameter / 2 + clip_thickness + gap, h = 100);
+                cylinder(
+                    r = spring_axle_diameter / 2 + clip_thickness + gap,
+                    h = 100);
     }
 
     module side_wall() {
