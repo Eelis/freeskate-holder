@@ -303,10 +303,10 @@ module single() {
         cliphouse();
 }
 
-module clip_in_single(openness=1) {
+module clip_in_single(openness = 1) {
     open_angle = 25;
     translate([
-            -clip_width / 2,
+            0,
             -spring_axle_diameter / 2 - cliphouse_overhang,
             wall_width + deck_thickness + wall_width + spring_arm_length])
         color("gold")
