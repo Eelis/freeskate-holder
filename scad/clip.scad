@@ -35,11 +35,13 @@ module clip() {
     translate([spring_axle_length + cliphouse_wall_width, 0, 0])
         side();
 
-    hull(){
-        translate([0, -20, -16])
+    // handle:
+    translate([0, -20, -16]) {
+        sphere(5);
+        translate([clip_width, 0, 0])
             sphere(5);
-        translate([clip_width, -20, -16])
-            sphere(5);
+        rotate([0, 90, 0])
+            cylinder(h = clip_width, r = 5);
     }
 
     difference() {
