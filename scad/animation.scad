@@ -6,5 +6,5 @@ use <single_anim.scad>
 mirror([0, 0, 1]) {
     color("gold") frame();
     for_both_skates()
-        single_moving_parts();
+        moving_parts();
 }
